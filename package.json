@@ -4,7 +4,6 @@
   "description": "mayumi-san is a costume commands discord bot made of node.js",
   "main": "bot.js",
   "dependencies": {
-    "cleverbot-node": "^0.3.11",
     "discord.js": "^12.0.0-dev",
     "embed-creator": "^1.1.4",
     "ms": "^2.0.0",
