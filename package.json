@@ -1,6 +1,6 @@
 {
   "name": "mayumi-san",
-  "version": "1.0.0",
+  "version": "5.3.0",
   "description": "mayumi-san is a costume commands discord bot made of node.js",
   "main": "bot.js",
   "dependencies": {
