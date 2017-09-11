@@ -32,6 +32,7 @@ const warns = require('./data/warns.json')
 const queues = {}
 const ytdl = require('ytdl-core')
 const search = require('youtube-search')
+const ms = require('ms')
 const opts = {
   part: 'snippet',
   maxResults: 10,
@@ -725,7 +726,6 @@ ${prefix}sys - Gets system information.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
-      var ms = require('ms')
       let args = message.content.split(' ').slice(1)
       if (!args) message.channel.send('you need to specify what you want to be reminded with.')
       let time1 = args[0]
@@ -736,7 +736,7 @@ ${prefix}sys - Gets system information.${rb}`)
 
       setTimeout(function () {
         message.author.send('You have requested me to remind you with:** ' + args1 + ' **in **' + time + '**')
-      }, ms(time))
+      }, ms(time1))
     }
 
     if (message.content.startsWith(prefix + 'mute')) {
