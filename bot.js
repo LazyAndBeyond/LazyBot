@@ -736,7 +736,7 @@ ${prefix}sys - Gets system information.${rb}`)
       console.log(args)
 
       setTimeout(function () {
-        message.author.send('You have requested me to remind you with:** ' + args1 + ' **in **' + time + '**')
+        message.author.send('You have requested me to remind you with:** ' + args1 + ' **in **' + time1 + '**')
       }, ms(time1))
     }
 
