@@ -733,6 +733,7 @@ ${prefix}sys - Gets system information.${rb}`)
       let args1 = args.slice(1).join(' ')
       message.channel.send('Got it :ok_hand: , gonna remind in **' + time1 + '**')
       bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}remindme .${rb}`)
+      console.log(args)
 
       setTimeout(function () {
         message.author.send('You have requested me to remind you with:** ' + args1 + ' **in **' + time + '**')
