@@ -7,7 +7,7 @@
     "discord.js": "11.2.1",
     "embed-creator": "^1.1.4",
     "ms": "^2.0.0",
-    "opusscript": "^0.0.1",
+    "opusscript": "0.0.3",
     "opus": "^0.0.0",
     "script": "^0.1.4",
     "ytdl-core": "^0.7.24",
