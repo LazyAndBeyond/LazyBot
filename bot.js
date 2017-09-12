@@ -608,15 +608,11 @@ ${prefix}sys - Gets system information.${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'skip')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1 || message.member.permissions.has('ADMINISTRATOR')) {
-        let player = message.guild.voiceConnection.player.dispatcher
-        if (!player || player.paused) return message.channel.send('Bot is not playing!')
-        message.channel.send('Skipping song...')
-        player.end()
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
-      } else {
-        message.channel.send('You dont have permisson do run this command.')
-      }
+      let player = message.guild.voiceConnection.player.dispatcher
+      if (!player || player.paused) return message.channel.send('Bot is not playing!')
+      message.channel.send('Skipping song...')
+      player.end()
+      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'resetwarn')) {
@@ -643,28 +639,20 @@ ${prefix}sys - Gets system information.${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'pause')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
-        let player = message.guild.voiceConnection.player.dispatcher
-        if (!player || player.paused) return message.channel.send('Bot is not playing')
-        player.pause()
-        message.channel.send('Pausing music...')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pause .${rb}`)
-      } else {
-        message.channel.send('Only admins can use this command!')
-      }
+      let player = message.guild.voiceConnection.player.dispatcher
+      if (!player || player.paused) return message.channel.send('Bot is not playing')
+      player.pause()
+      message.channel.send('Pausing music...')
+      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pause .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'stop')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
-        let player = message.guild.voiceConnection.player.dispatcher
-        var chan = message.member.voiceChannel
-        message.channel.send('Stopping music...')
-        player.end()
-        chan.leave()
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}stop .${rb}`)
-      } else {
-        message.channel.send('Only admins can use this command!')
-      }
+      let player = message.guild.voiceConnection.player.dispatcher
+      var chan = message.member.voiceChannel
+      message.channel.send('Stopping music...')
+      player.end()
+      chan.leave()
+      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}stop .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'warn')) {
