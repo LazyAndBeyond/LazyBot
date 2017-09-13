@@ -48,26 +48,7 @@ function getQueue (guild) {
   return queues[guild]
 }
 
-function getRandomInt (max) {
-  return Math.floor(Math.random() * (max + 1))
-}
-
 var paused = {}
-
-// Fix dis shit
-function getRandomMusic (queue, msg) {
-  fs.readFile('./data/autoplaylist.txt', 'utf8', function (err, data) {
-    if (err) throw err
-    console.log('OK: autoplaylist.txt')
-    var random = data.split('\n')
-
-    var num = getRandomInt(random.length)
-    console.log(random[num])
-    var url = random[num]
-    msg.author.username = 'AUTOPLAYLIST'
-    play(msg, queue, url)
-  })
-}
 
 function play (msg, queue, song) {
   try {
