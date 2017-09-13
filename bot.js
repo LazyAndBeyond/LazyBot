@@ -93,11 +93,7 @@ function play (msg, queue, song) {
         play(msg, queue)
       })
     } else {
-      msg.channel.send('No more music in queue! Starting autoplaylist')
-
-            // TODO: When no more music, play randomly from playlist
-
-      getRandomMusic(queue, msg)
+      msg.channel.send('No more music in queue! use ' + prefix + 'play to play music again.')
     }
   } catch (err) {
     console.log('WELL LADS LOOKS LIKE SOMETHING WENT WRONG!' + err.stack)
