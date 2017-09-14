@@ -727,7 +727,7 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
 
         setTimeout(function () {
-          member.removeRole(muteRole.id)
+          member.removeRole(muteRole)
           bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted.`)
           message.channel.send('unmuted the user.')
         }, ms(thetime))
