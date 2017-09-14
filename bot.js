@@ -722,7 +722,7 @@ ${prefix}sys - Gets system information.${rb}`)
           .then(role => member.addRole(role))
           message.guild.channels.map(channel => {
             channel.overwritePermissions(muteRole, {
-              SEND_MESSAGES: fals
+              SEND_MESSAGES: false
             })
           })
           message.channel.send('didnt find a **Muted** role so i created one.')
