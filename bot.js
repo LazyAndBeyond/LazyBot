@@ -720,7 +720,7 @@ ${prefix}sys - Gets system information.${rb}`)
             permissions: ['READ_MESSAGES']
         })
           .then(role => member1.addRole(role))
-          message.channel.sned('didnt find a 'Muted' role so i created one.')
+          message.channel.sned('didnt find a **Muted** role so i created one.')
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
@@ -735,13 +735,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('you dont have permisson to run this command.')
       }
     }
-     if (message.content.startsWith(prefix + 'test')) {
-        message.guild.createRole({
-        name: 'Super Cool People',
-        color: 'BLUE',
-        permissions: ['READ_MESSAGES']
-      })
-     }
+    
     if (message.content.startsWith(prefix + 'unmute')) {
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
