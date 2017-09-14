@@ -742,7 +742,7 @@ ${prefix}sys - Gets system information.${rb}`)
         if (!member) return message.channel.send('You need to mention a user!')
         let muteRole = message.guild.roles.find('name', 'Muted')
 
-        member.removeRole(muteRole.id)
+        member.removeRole(muteRole)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted in ${message.guild.name}.`)
         message.channel.send(`unmuted the user.`)
         bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}unmute .${rb}`)
