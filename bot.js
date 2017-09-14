@@ -734,6 +734,12 @@ ${prefix}sys - Gets system information.${rb}`)
 
         setTimeout(function () {
           member.removeRole(muteRole)
+          .then(role => message.guild.channels.map(channel => {
+            channel.overwritePermissions(role, {
+              SEND_MESSAGES: true
+            })
+          })
+        )
           bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted.`)
           message.channel.send('unmuted the user.')
         }, ms(thetime))
