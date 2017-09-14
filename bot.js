@@ -707,30 +707,20 @@ ${prefix}sys - Gets system information.${rb}`)
 
     if (message.content.startsWith(prefix + 'mute')) {
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
-        let member = message.mentions.members.first()
-        if (!member) return message.channel.send('You need to mention a user!')
+        let args = message.content.split(' ').slice(1)
+        let thetime = args[1]
+        if (!thetime) return message.channel.send('ther is no time specified.')
+        let member1 = message.mentions.members.first()
+        if (!member1) return message.channel.send('You need to mention a user!')
         let muteRole = message.guild.roles.find('name', 'Muted')
         if (!muteRole) {
-          return message.guild.createRole({
+        message.guild.createRole({
             name: 'Muted',
-            color: 'RED',
-            hoist: false,
-            position: 5,
-            mentionable: true,
-            permissions: {
-              READ_MESSAGES: true,
-              SEND_MESSAGES: false,
-              SEND_TTS_MESSAGES: false,
-              CONNECT: false,
-              SPEAK: false
-            }
-          })
+            color: 'BLACK',
+            permissions: ['READ_MESSAGES']
+        })
+          .then(role => member1.addRole(role))
         }
-        let args = message.content.split(' ').slice(1)
-        let time = args[1]
-        if (!time) return message.channel.send('ther is no time specified.')
-
-        member.addRole(muteRole.id)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
         bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
@@ -739,7 +729,7 @@ ${prefix}sys - Gets system information.${rb}`)
           member.removeRole(muteRole.id)
           bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted.`)
           message.channel.send('unmuted the user.')
-        }, ms(time))
+        }, ms(thetime))
       } else {
         message.channel.send('you dont have permisson to run this command.')
       }
