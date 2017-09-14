@@ -721,7 +721,7 @@ ${prefix}sys - Gets system information.${rb}`)
           })
           .then(role => member.addRole(role))
           message.guild.channels.map(channel => {
-            channel.overwritePermissions(muteRole, {
+            channel.overwritePermissions(message.guild.roles.find('name', 'Muted'), {
               SEND_MESSAGES: false
             })
           })
