@@ -720,11 +720,12 @@ ${prefix}sys - Gets system information.${rb}`)
             permissions: ['READ_MESSAGES']
           })
           .then(role => member.addRole(role))
-          message.guild.channels.map(channel => {
-            channel.overwritePermissions(message.guild.roles.find('name', 'Muted'), {
+          .then(role => message.guild.channels.map(channel => {
+            channel.overwritePermissions(role, {
               SEND_MESSAGES: false
             })
           })
+        )
           message.channel.send('didnt find a **Muted** role so i created one.')
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
