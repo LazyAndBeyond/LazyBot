@@ -747,7 +747,14 @@ ${prefix}sys - Gets system information.${rb}`)
      if (message.content.startsWith(prefix + 'test')) {
         message.guild.createRole({
         name: 'Super Cool People',
-        color: 'BLUE'
+        color: 'BLUE',
+        permissions: {
+             READ_MESSAGES: true,
+             SEND_MESSAGES: false,
+             SEND_TTS_MESSAGES: false,
+             CONNECT: false,
+             SPEAK: false
+            }
       })
      }
     if (message.content.startsWith(prefix + 'unmute')) {
