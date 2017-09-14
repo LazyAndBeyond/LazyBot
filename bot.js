@@ -710,8 +710,8 @@ ${prefix}sys - Gets system information.${rb}`)
         let args = message.content.split(' ').slice(1)
         let thetime = args[1]
         if (!thetime) return message.channel.send('ther is no time specified.')
-        let member1 = message.mentions.members.first()
-        if (!member1) return message.channel.send('You need to mention a user!')
+        let member = message.mentions.members.first()
+        if (!member) return message.channel.send('You need to mention a user!')
         let muteRole = message.guild.roles.find('name', 'Muted')
         if (!muteRole) {
         message.guild.createRole({
@@ -719,8 +719,8 @@ ${prefix}sys - Gets system information.${rb}`)
             color: 'BLACK',
             permissions: ['READ_MESSAGES']
         })
-          .then(role => member1.addRole(role))
-          message.channel.sned('didnt find a **Muted** role so i created one.')
+          .then(role => member.addRole(role))
+          message.channel.send('didnt find a **Muted** role so i created one.')
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
