@@ -744,6 +744,11 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('you dont have permisson to run this command.')
       }
     }
+     if (message.content.startsWith(prefix + 'test')) {
+        message.guild.createRole({
+        name: ['Super Cool People'],
+        color: 'BLUE'
+      })
     if (message.content.startsWith(prefix + 'unmute')) {
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
