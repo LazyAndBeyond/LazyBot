@@ -714,11 +714,11 @@ ${prefix}sys - Gets system information.${rb}`)
         if (!member) return message.channel.send('You need to mention a user!')
         let muteRole = message.guild.roles.find('name', 'Muted')
         if (!muteRole) {
-        message.guild.createRole({
+          message.guild.createRole({
             name: 'Muted',
             color: 'BLACK',
             permissions: ['READ_MESSAGES']
-        })
+          })
           .then(role => member.addRole(role))
           message.channel.send('didnt find a **Muted** role so i created one.')
         }
@@ -735,7 +735,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('you dont have permisson to run this command.')
       }
     }
-    
+
     if (message.content.startsWith(prefix + 'unmute')) {
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
