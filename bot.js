@@ -746,7 +746,7 @@ ${prefix}sys - Gets system information.${rb}`)
     }
      if (message.content.startsWith(prefix + 'test')) {
         message.guild.createRole({
-        name: ['Super Cool People'],
+        name: 'Super Cool People',
         color: 'BLUE'
       })
      }
