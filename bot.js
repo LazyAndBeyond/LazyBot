@@ -706,7 +706,7 @@ ${prefix}sys - Gets system information.${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'mute')) {
-      if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')  || config.admins.indexOf(message.author.id) !== -1) {
+      if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR') || config.admins.indexOf(message.author.id) !== -1) {
         let args = message.content.split(' ').slice(1)
         let thetime = args[1]
         if (!thetime) return message.channel.send('ther is no time specified.')
