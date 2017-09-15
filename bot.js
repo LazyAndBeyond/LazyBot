@@ -156,7 +156,7 @@ bot.on('ready', function () {
     config.client_id = bot.user.id
     bot.user.setStatus('online', config.status)
     bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! with ' + bot.users.size + ' users!')
-    bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Logging in to Discord${rb}`)
+    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Logging in to Discord${rb}`)
     var msg = `
 ------------------------------------------------------
 > Logging in...
