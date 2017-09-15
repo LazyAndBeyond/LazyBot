@@ -445,7 +445,7 @@ ${prefix}sys - Gets system information.${rb}`)
       fs.writeFile('./data/notes.json', JSON.stringify(notes), function (err) {
         if (err) return
         message.channel.send('Added to notes! Type `' + prefix + 'mynotes` to see all your notes')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}note .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}note .${rb}`)
       })
     }
     if (message.content.startsWith(prefix + 'kick')) {
