@@ -219,10 +219,10 @@ bot.on('voiceStateUpdate', function (oldMember, newMember) {
 })
 bot.on('guildCreate', guild => {
   const rb = '```'
-  bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Joined: "${guild.name}" (id: "${guild.id}"). \nWith: "${guild.memberCount}" members!${rb}`)
+  bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Joined: "${guild.name}" (id: "${guild.id}"). \nWith: "${guild.memberCount}" members!${rb}`)
   bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers!')
   bot.on('guildDelete', guild => {
-    bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Leaft: "${guild.name}" (id: "${guild.id}")${rb}`)
+    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Leaft: "${guild.name}" (id: "${guild.id}")${rb}`)
     bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers!')
   })
 })
@@ -302,16 +302,16 @@ ${prefix}avatar <mention> - gives you someones avatar.
 ${prefix}Info - send an embed with some bot info.
 ${prefix}sys - Gets system information.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}support .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}support .${rb}`)
     }
     if (message.content.startsWith(prefix + 'shutdown')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
         message.channel.send('Shutdown has been initiated.\n**Shutting down...**')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Exitting Discord......${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Exitting Discord......${rb}`)
         setTimeout(function () {
           bot.destroy()
         }, 1000)
@@ -325,7 +325,7 @@ ${prefix}sys - Gets system information.${rb}`)
         var name = message.content.split(' ').splice(1).join(' ')
         if (!name) message.channel.send('you need to specify a name.')
         console.log('Bot name got setted to ' + name)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setName .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setName .${rb}`)
         bot.user.setUsername(name)
         message.channel.send('✔ Username setted!')
       } else {
@@ -338,11 +338,11 @@ ${prefix}sys - Gets system information.${rb}`)
       let avatar = message.mentions.users.first().displayAvatarURL()
       if (!avatar) message.channel.send('this user has no avatar.')
       message.channel.send(avatar)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}avatar .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}avatar .${rb}`)
     }
     if (message.content.startsWith(prefix + 'servers')) {
       message.channel.send("I'm currently on **" + bot.guilds.size + 'server(s)**')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}servers .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}servers .${rb}`)
     }
     if (message.content.startsWith(prefix + 'DM')) {
       const args = message.content.split(' ').splice(1)
@@ -351,11 +351,11 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!memeber) message.channel.send('you need add a mention to the command dummy.')
       let args1 = args.slice(1).join(' ')
       bot.users.find('id', message.mentions.members.first().id).send(`**${message.author.username}** sended you a DM: \n${args1}`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}DM .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}DM .${rb}`)
       message.channel.send('DM Successfuly sent!')
     }
     if (message.content.startsWith(prefix + 'Info')) {
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
       message.channel.send({embed: {
         color: 3447489,
         author: {
@@ -388,11 +388,11 @@ ${prefix}sys - Gets system information.${rb}`)
     if (message.content.startsWith(prefix + 'listemojis')) {
       const emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
       message.channel.send(`Here are** ${message.guild.name} **Emojis: \n${emojiList}`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}listemojis .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}listemojis .${rb}`)
     }
     if (message.content === prefix + 'uptime') {
       message.channel.send('I have been up for `' + secondsToString(process.uptime()) + '` - My process was started at this time --> `' + started + '`')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}uptime .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}uptime .${rb}`)
     }
     if (message.content.startsWith(prefix + 'play')) {
       if (!message.guild.voiceConnection) {
@@ -404,12 +404,11 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!suffix) return message.channel.send('You need to specify a song link or a song name!')
 
       play(message, getQueue(message.guild.id), suffix)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}play .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}play .${rb}`)
     }
-
     if (message.content.startsWith(prefix + 'sys')) {
       message.channel.send('```' + `js\nSystem info: ${process.platform}-${process.arch} with ${process.release.name} version ${process.version.slice(1)}\nProcess info: PID ${process.pid} at ${process.cwd()}\nProcess memory usage: ${Math.ceil(process.memoryUsage().heapTotal / 1000000)} MB\nSystem memory usage: ${Math.ceil((os.totalmem() - os.freemem()) / 1000000)} of ${Math.ceil(os.totalmem() / 1000000)} Bot info: ID ${bot.user.id}#${bot.user.discriminator} \nName: ${bot.user.username}  \nPrefixs: ${'$'} \nCharacterLimit: ${2000}  \nServers: ${bot.guilds.size} \nChannels: ${bot.channels.size} \nUsers: ${bot.users.size} \nAdmins: ${config.admins} ` + '```')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}sys .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}sys .${rb}`)
     }
     if (message.content.startsWith(prefix + 'serverblacklist')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
@@ -420,12 +419,12 @@ ${prefix}sys - Gets system information.${rb}`)
           sbl.splice(sbl.indexOf(args[1]))
           fs.writeFile('./data/blservers.json', JSON.stringify(sbl), function (err) { if (err) { return console.log(err) } })
           message.channel.send('Server have been removed from blacklist.')
-          bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverblacklist remove .${rb}`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverblacklist remove .${rb}`)
         } else if (args[0] === 'add') {
           sbl.push(args[1])
           fs.writeFile('./data/blservers.json', JSON.stringify(sbl), function (err) { if (err) { return console.log(err) } })
           message.channel.send('Server have been added to blacklist.')
-          bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverblacklist add .${rb}`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverblacklist add .${rb}`)
         } else {
           message.channel.send(`You need to specify what to do! ${prefix}serverblacklist <add/remove> <server id>`)
         }
@@ -458,7 +457,7 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.users.find('id', message.mentions.members.first().id).send('you have been kicked from ' + message.guild.name + ' for **' + `${args1}` + '**')
         member.kick()
         message.channel.send('User have been kicked.')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kick .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kick .${rb}`)
       } else {
         message.channel.send('you dont have permisson to run this command')
       }
@@ -472,7 +471,7 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.users.find('id', message.mentions.members.first().id).send('you have been banned from ' + message.guild.name + ' for **' + `${args1}` + '**')
         member.ban()
         message.channel.send('user have been banned.')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}ban .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}ban .${rb}`)
       } else {
         message.channel.send('you dont have permisson to run this command')
       }
@@ -485,7 +484,7 @@ ${prefix}sys - Gets system information.${rb}`)
 
       nutes += '```'
       message.channel.send(nutes)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mynotes .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mynotes .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'userblacklist')) {
@@ -497,12 +496,12 @@ ${prefix}sys - Gets system information.${rb}`)
           ubl.splice(ubl.indexOf(args[1]))
           fs.writeFile('./data/blusers.json', JSON.stringify(ubl), function (err) { if (err) { return console.log(err) } })
           message.channel.send('User have been removed from blacklist.')
-          bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userblacklist remove .${rb}`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userblacklist remove .${rb}`)
         } else if (args[0] === 'add') {
           ubl.push(args[1])
           fs.writeFile('./data/blusers.json', JSON.stringify(ubl), function (err) { if (err) { return console.log(err) } })
           message.channel.send('User have been added to blacklist.')
-          bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userblacklist add .${rb}`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userblacklist add .${rb}`)
         } else {
           message.channel.send(`You need to specify what to do! ${prefix}userlacklist <add/remove> <user id>`)
         }
@@ -519,7 +518,7 @@ ${prefix}sys - Gets system information.${rb}`)
           queue.splice(i, 1)
         }
         message.channel.send(`Cleared the queue`)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}clear .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}clear .${rb}`)
       } else {
         message.channel.send('Only the admins can do this command')
       }
@@ -542,7 +541,7 @@ ${prefix}sys - Gets system information.${rb}`)
         }
         if (foundCounter === 0) return message.channel.send('No warns recorded for that user')
         message.channel.send(`Found ${foundCounter} warns\n ${found}`)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}checkwarn .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}checkwarn .${rb}`)
       } else {
         message.channel.send('Only the admins can do this command')
       }
@@ -570,7 +569,7 @@ ${prefix}sys - Gets system information.${rb}`)
 
     if (message.content.startsWith(prefix + 'mylevel')) {
       message.reply(`You are currently level **${userData.level}**, with **${userData.points}** points.`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mylevel .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mylevel .${rb}`)
     }
     fs.writeFile('./data/points.json', JSON.stringify(points), (err) => {
       if (err) console.error(err)
@@ -581,7 +580,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('Default channel setted to ' + message.channel.name)
         object[message.guild.id] = message.channel.id
         fs.writeFile('./data/default.json', JSON.stringify(object), function (err) { if (err) { return console.log(err) } })
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setdefault .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setdefault .${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'skip')) {
@@ -589,7 +588,7 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!player || player.paused) return message.channel.send('Bot is not playing!')
       message.channel.send('Skipping song...')
       player.end()
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'resetwarn')) {
@@ -609,7 +608,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send(`Delete the case of ${warns[found].user.name}\nReason: ${warns[found].reason}`)
         delete warns[found]
         fs.writeFile('./data/warns.json', JSON.stringify(warns))
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}resetwarn .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}resetwarn .${rb}`)
       } else {
         message.channel.send('You have to be able to kick/ban members to use this command')
       }
@@ -620,7 +619,7 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!player || player.paused) return message.channel.send('Bot is not playing')
       player.pause()
       message.channel.send('Pausing music...')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pause .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pause .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'stop')) {
@@ -629,7 +628,7 @@ ${prefix}sys - Gets system information.${rb}`)
       message.channel.send('Stopping music...')
       player.end()
       chan.leave()
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}stop .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}stop .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'warn')) {
@@ -672,7 +671,7 @@ ${prefix}sys - Gets system information.${rb}`)
         }
         message.channel.send(usr + ' was warned for `' + rsn + '`, check logs for more info')
         fs.writeFile('./data/warns.json', JSON.stringify(warns))
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}warn .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}warn .${rb}`)
       } else {
         message.channel.send('You need to have permisson to kick/ban members to use this command!')
       }
@@ -683,12 +682,12 @@ ${prefix}sys - Gets system information.${rb}`)
         var say = message.content.split(' ').splice(1).join(' ')
         message.delete()
         message.channel.send(say)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}say .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}say .${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'serverinfo')) {
       message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${message.guild.channels.size}**\nVoice Channels: **${message.guild.voiceChannel}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
       let args = message.content.split(' ').slice(1)
@@ -697,7 +696,7 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!time1) message.channel.send('You need to specify time.')
       let args1 = args.slice(1).join(' ')
       message.channel.send('Got it :ok_hand: , gonna remind in **' + time1 + '**')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}remindme .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}remindme .${rb}`)
       console.log(args)
 
       setTimeout(function () {
@@ -730,7 +729,7 @@ ${prefix}sys - Gets system information.${rb}`)
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
 
         setTimeout(function () {
           member.removeRole(muteRole)
@@ -757,7 +756,7 @@ ${prefix}sys - Gets system information.${rb}`)
         member.removeRole(muteRole)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted in ${message.guild.name}.`)
         message.channel.send(`unmuted the user.`)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}unmute .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}unmute .${rb}`)
       } else {
         message.channel.send('you dont have permisson to run this command.')
       }
@@ -769,8 +768,8 @@ ${prefix}sys - Gets system information.${rb}`)
       if (!id) message.channel.send('couldnt find the dev server')
       const channel = bot.channels.get('283906210049163265')
       if (!channel) message.channel.send('couldnt find the channel')
-      bot.guilds.get('283893701023891466').channels.get('283906210049163265').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + new Date() + ' ]**')
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + new Date() + ' ]**')
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
       message.channel.send('FeedBack Successfully send.')
     }
     if (message.content.startsWith(prefix + 'disable')) {
@@ -779,7 +778,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('Disabled.')
         array.splice(array.indexOf(message.guild.id))
         fs.writeFile('./data/disable.json', JSON.stringify(array), function (err) { if (err) { return console.log(err) } })
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}enable .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}enable .${rb}`)
       } else {
         message.channel.send('you dont have permisson to use this command.')
       }
@@ -792,7 +791,7 @@ ${prefix}sys - Gets system information.${rb}`)
         array1.push(message.guild.id)
         fs.writeFile('./data/disableS.json', JSON.stringify(array1), function (err) { if (err) { return console.log(err) } })
 
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}enableSwear .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}enableSwear .${rb}`)
       } else {
         message.channel.send('you dont have permisson to use this command.')
       }
@@ -804,7 +803,7 @@ ${prefix}sys - Gets system information.${rb}`)
         array1.splice(array1.indexOf(message.guild.id))
         fs.writeFile('./data/disableS.json', JSON.stringify(array1), function (err) { if (err) { return console.log(err) } })
 
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}disable .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}disable .${rb}`)
       } else {
         message.channel.send('you dont have permisson to use this command.')
       }
@@ -817,7 +816,7 @@ ${prefix}sys - Gets system information.${rb}`)
         message.channel.send('Enabled.')
         array.push(message.guild.id)
         fs.writeFile('./data/disable.json', JSON.stringify(array), function (err) { if (err) { return console.log(err) } })
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}disable .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}disable .${rb}`)
       } else {
         message.channel.send('you dont have permisson to use this command.')
       }
@@ -828,7 +827,7 @@ ${prefix}sys - Gets system information.${rb}`)
           let code = message.content.split(' ').splice(1).join(' ')
           let result = eval(code)
           message.channel.send('```diff\n+ ' + result + '```')
-          bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}eval .${rb}`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}eval .${rb}`)
         } catch (err) {
           message.channel.send('```diff\n- ' + err + '```')
         }
@@ -849,7 +848,7 @@ ${prefix}sys - Gets system information.${rb}`)
         if (volume > 100) return message.channel.send("The music can't be higher then 100")
         player.setVolume((volume / 100))
         message.channel.send(`Volume changed from ${(volumeBefore * 100)} to ${volume}`)
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}volume .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}volume .${rb}`)
       } else {
         message.channel.send('Only admins can change the volume!')
       }
@@ -858,7 +857,7 @@ ${prefix}sys - Gets system information.${rb}`)
       if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id) {
         message.channel.send('i didnt iven want to be here')
         message.guild.leave()
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kill .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kill .${rb}`)
       }
     }
 
@@ -871,7 +870,7 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.user.setGame(queue[0].title)
         player.resume()
         message.channel.send('Resuming music...')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}resume .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}resume .${rb}`)
       } else {
         message.channel.send('Only admins can do this command')
       }
@@ -879,7 +878,7 @@ ${prefix}sys - Gets system information.${rb}`)
 
     if (message.content.startsWith(prefix + 'invite')) {
       message.channel.send('My OAuth URL: ' + `http://discordapp.com/oauth2/authorize?client_id=${config.client_id}&scope=bot&permissions=8`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}invite .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}invite .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'about')) {
@@ -888,14 +887,14 @@ ${prefix}sys - Gets system information.${rb}`)
 Hello,im Mayumi-San! To see all my commands type ${prefix}help.
 ${cdb}`)
       message.channel.send(msg)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}about .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}about .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'np') || message.content.startsWith(prefix + 'nowplaying')) {
       let queue = getQueue(message.guild.id)
       if (queue.length === 0) return message.channel.send(message, 'No music in queue')
       message.channel.send(`${rb}xl\nCurrently playing: ${queue[0].title} | by ${queue[0].requested}${rb}`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}np .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}np .${rb}`)
     }
     if (message.content.startsWith(prefix + 'queue')) {
       let queue = getQueue(message.guild.id)
@@ -905,7 +904,7 @@ ${cdb}`)
         text += `${(i + 1)}. ${queue[i].title} | requested by ${queue[i].requested}\n`
       };
       message.channel.send(`${rb}xl\n${text}${rb}`)
-      bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}queue .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}queue .${rb}`)
     }
     if (message.content.startsWith(prefix + 'announce ', '')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
@@ -918,11 +917,11 @@ ${cdb}`)
           if (!array.includes(GuildIDS[i])) {
             if (!object.hasOwnProperty(GuildIDS[i])) {
               bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
-              bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
+              bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
             } else {
               if (!array.includes(GuildIDS[i])) {
                 bot.channels.get(object[GuildIDS[i]]).send(args)
-                bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
+                bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
               }
             }
           }
@@ -932,7 +931,7 @@ ${cdb}`)
       }
     }
   } catch (err) {
-    bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Bot CRASHED!!${rb}`)
+    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Bot CRASHED!!${rb}`)
     console.log('WELL LADS LOOKS LIKE SOMETHING WENT WRONG!' + err.stack)
     errorlog[String(Object.keys(errorlog).length)] = {
       'code': err.code,
