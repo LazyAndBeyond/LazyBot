@@ -583,6 +583,21 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setdefault .${rb}`)
       }
     }
+    if (message.content.startsWith(prefix + 'purge')) {
+      const user = message.mentions.users.first()
+      const amount = parseInt(message.content.split(' ')[1]) ? parseInt(message.content.split(' ')[1]) : parseInt(message.content.split(' ')[2])
+      if (!amount) return message.reply('Must specify an amount to delete!')
+      if (!amount && !user) return message.reply('Must specify a user and amount, or just an amount, of messages to purge!')
+      message.channel.fetchMessages({
+        limit: amount
+      }).then((messages) => {
+        if (user) {
+          const filterBy = user ? user.id : bot.user.id
+          messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount)
+        }
+        message.channel.bulkDelete(messages).catch(error => console.log(error.stack))
+      })
+    }
     if (message.content.startsWith(prefix + 'skip')) {
       let player = message.guild.voiceConnection.player.dispatcher
       if (!player || player.paused) return message.channel.send('Bot is not playing!')
