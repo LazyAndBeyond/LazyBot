@@ -732,7 +732,7 @@ ${prefix}sys - Gets system information.${rb}`)
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
 
         setTimeout(function () {
-          member.removeRole(muteRole.id)
+          member.removeRole(muteRole)
           message.guild.channels.map(channel => {
             channel.overwritePermissions(member, {
               SEND_MESSAGES: true
