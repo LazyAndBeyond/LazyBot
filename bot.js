@@ -36,7 +36,7 @@ const ms = require('ms')
 const opts = {
   part: 'snippet',
   maxResults: 10,
-  key: config.youtube_api_key
+  key: process.env.youtube_api_key
 }
 var intent
 
@@ -370,7 +370,7 @@ ${prefix}sys - Gets system information.${rb}`)
         },
         {
           name: 'Invite Mayumi-San to your server.',
-          value: 'To invite Mayumi-San to your server click >>>>> [here](http://discordapp.com/oauth2/authorize?client_id=336910384541990912&scope=bot&permissions=8)'
+          value: 'To invite Mayumi-San to your server click >>>>> [here](http://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=8)'
         },
         {
           name: 'Bot Owner',
