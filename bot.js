@@ -253,7 +253,7 @@ bot.on('message', function (message) {
       message.channel.send('Pong!').then(function (msg) {
         var after = Date.now()
         msg.edit('Pong! **' + (after - before) + '**ms')
-        bot.guilds.get('283893701023891466').channels.get('354671958346170369').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}ping .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}ping .${rb}`)
       })
     }
 
