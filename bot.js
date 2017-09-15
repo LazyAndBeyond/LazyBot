@@ -220,10 +220,10 @@ bot.on('voiceStateUpdate', function (oldMember, newMember) {
 bot.on('guildCreate', guild => {
   const rb = '```'
   bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Joined: "${guild.name}" (id: "${guild.id}"). \nWith: "${guild.memberCount}" members!${rb}`)
-  bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers!')
+  bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! With ' + bot.users.size + ' members!')
   bot.on('guildDelete', guild => {
     bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Leaft: "${guild.name}" (id: "${guild.id}")${rb}`)
-    bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers!')
+    bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! With ' + bot.users.size + ' members!')
   })
 })
 bot.on('message', function (message) {
