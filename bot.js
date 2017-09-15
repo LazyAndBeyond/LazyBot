@@ -945,7 +945,7 @@ ${cdb}`)
   }
 })
 
-bot.login(config.token)
+bot.login(process.env.token)
 
 process.on('unhandledRejection', err => {
   console.error('Uncaught We had a promise error \n' + err.stack)
