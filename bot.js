@@ -19,7 +19,7 @@ try {
   }
 }
 const admins = config.admins
-const swearWords = ['fuck', 'shit', 'dick', 'pussy', 'fuck off', 'fuck you', 'fucking', 'cunt']
+const swearWords = ['fuck', 'shit', 'dick', 'pussy', 'fuck off', 'fuck you', 'fucking', 'cunt', 'faggot', 'ass', 'asshole']
 const bot = new Discord.Client({autoReconnect: true})
 const notes = require('./data/notes.json')
 const os = require('os')
