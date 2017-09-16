@@ -304,14 +304,15 @@ ${prefix}uptime - Shows bot uptime.
 ${prefix}support - gives you the bot support server.
 ${prefix}avatar <mention> - gives you someones avatar.
 ${prefix}Info - send an embed with some bot info.
+${prefix}sys - Gets system information.${rb}`)
+      message.author.send(`${rb}
 ${prefix}kiss - gives you a kiss gif.
 ${prefix}hug - gives you a hug gif.
 ${prefix}pat - gives you a pat gif.
 ${prefix}neko - gives you a neko gif.
 ${prefix}why - sends a question.
 ${prefix}LewdNeko - gives you a LewdNeko pic.
-${prefix}lizard - gives you a lizard pic.
-${prefix}sys - Gets system information.${rb}`)
+${prefix}lizard - gives you a lizard pic.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
