@@ -33,6 +33,10 @@ const queues = {}
 const ytdl = require('ytdl-core')
 const search = require('youtube-search')
 const ms = require('ms')
+const neko = require('neko.js')
+const nekoclient = new neko.Client({
+  key: 'dnZ4fFJbjtch56pNbfrZeSRfgWqdPDgf'
+})
 const opts = {
   part: 'snippet',
   maxResults: 10,
@@ -303,6 +307,27 @@ ${prefix}Info - send an embed with some bot info.
 ${prefix}sys - Gets system information.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
+    }
+    if (message.content.startsWith(prefix + 'kiss')) {
+      nekoclient.kiss().then((kiss) => message.channel.send(kiss.url))
+    }
+    if (message.content.startsWith(prefix + 'pat')) {
+      nekoclient.pat().then((pat) => message.channel.send(pat.url))
+    }
+    if (message.content.startsWith(prefix + 'hug')) {
+      nekoclient.hug().then((hug) => message.channel.send(hug.url))
+    }
+    if (message.content.startsWith(prefix + 'neko')) {
+      nekoclient.neko().then((neko) => message.channel.send(neko.neko))
+    }
+    if (message.content.startsWith(prefix + 'why')) {
+      nekoclient.why().then((why) => message.channel.send(why.why))
+    }
+    if (message.content.startsWith(prefix + 'LewdNeko')) {
+      nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
+    }
+    if (message.content.startsWith(prefix + 'lizard')) {
+      nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
