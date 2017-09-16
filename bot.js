@@ -726,7 +726,7 @@ ${prefix}sys - Gets system information.${rb}`)
         if (!thetime) return message.channel.send('ther is no time specified.')
         let member = message.mentions.members.first()
         if (!member) return message.channel.send('You need to mention a user!')
-        let muteRole = message.guild.roles.find('name', 'Muted')
+        let muteRole = message.guild.roles.find(r => r.name === 'Muted')
         if (!muteRole) {
           message.guild.createRole({
             name: 'Muted',
@@ -734,12 +734,12 @@ ${prefix}sys - Gets system information.${rb}`)
             permissions: ['READ_MESSAGES']
           })
           .then(role => member.addRole(role))
-          .then(role => message.guild.channels.map(channel => {
-            channel.overwritePermissions(role, {
-              SEND_MESSAGES: false
+          message.guild.channels.forEach(async (channel, id) => {
+            await channel.overwritePermissions(muteRole, {
+              SEND_MESSAGES: false,
+              ADD_REACTIONS: false
             })
           })
-        )
           message.channel.send('didnt find a **Muted** role so i created one.')
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
