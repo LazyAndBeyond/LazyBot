@@ -756,6 +756,7 @@ ${prefix}sys - Gets system information.${rb}`)
           message.guild.createRole({
             name: 'Muted',
             color: 'BLACK',
+            position: 6,
             permissions: ['READ_MESSAGES']
           })
           .then(role => member.addRole(role))
