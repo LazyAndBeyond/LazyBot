@@ -734,7 +734,7 @@ ${prefix}sys - Gets system information.${rb}`)
             permissions: ['READ_MESSAGES']
           })
           .then(role => member.addRole(role))
-          message.guild.channels.forEach(async (channel, id) => {
+          message.guild.channels.map(async (channel, id) => {
             await channel.overwritePermissions(muteRole, {
               SEND_MESSAGES: false,
               ADD_REACTIONS: false
@@ -765,7 +765,7 @@ ${prefix}sys - Gets system information.${rb}`)
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
         if (!member) return message.channel.send('You need to mention a user!')
-        let muteRole = message.guild.roles.find('name', 'Muted')
+        let muteRole = message.guild.roles.find(r => r.name === 'Muted')
 
         member.removeRole(muteRole)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted in ${message.guild.name}.`)
