@@ -734,8 +734,8 @@ ${prefix}sys - Gets system information.${rb}`)
             permissions: ['READ_MESSAGES']
           })
           .then(role => member.addRole(role))
-          message.guild.channels.map(async (channel, id) => {
-            await channel.overwritePermissions(muteRole, {
+          message.guild.channels.map((channel, id) => {
+            channel.overwritePermissions(muteRole, {
               SEND_MESSAGES: false,
               ADD_REACTIONS: false
             })
