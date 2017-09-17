@@ -391,13 +391,13 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let embed = new Discord.RichEmbed()
       .setAuthor(message.author.username)
       .setDescription("This is the user's info!")
-      .setColor("#9B59B6")
-      .addField("Full Username", user.tag)
-      .addField("ID", user.id)
-      .addField("Created At", user.createdAt);
-  
-    message.channel.send({embed: embed});
-  }
+      .setColor('#9B59B6')
+      .addField('Full Username', user.tag)
+      .addField('ID', user.id)
+      .addField('Created At', user.createdAt)
+
+      message.channel.send({embed: embed})
+    }
     if (message.content.startsWith(prefix + 'servers')) {
       message.channel.send("I'm currently on **" + bot.guilds.size + 'server(s)**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}servers .${rb}`)
@@ -786,20 +786,22 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         if (!member) return message.channel.send('You need to mention a user!')
         let muteRole = message.guild.roles.find(r => r.name === 'Muted')
         if (!muteRole) {
-          message.guild.createRole({
-            name: 'Muted',
-            color: 'BLACK',
-            position: 6,
-            permissions: ['READ_MESSAGES']
-          })
-          .then(role => member.addRole(role))
-          message.guild.channels.map((channel, id) => {
-            channel.overwritePermissions(muteRole, {
-              SEND_MESSAGES: false,
-              ADD_REACTIONS: false
+          try {
+            muteRole = message.guild.createRole({
+              name: 'Muted',
+              color: 'BLACK',
+              permissions: []
             })
-          })
-          message.channel.send('didnt find a **Muted** role so i created one.')
+
+            message.guild.channels.map((channel, id) => {
+              channel.overwritePermissions(muteRole, {
+                SEND_MESSAGES: false,
+                ADD_REACTIONS: false
+              })
+            })
+          } catch (error) {
+            console.log(error)
+          }
         }
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
@@ -807,11 +809,6 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
 
         setTimeout(function () {
           member.removeRole(muteRole)
-          message.guild.channels.map(channel => {
-            channel.overwritePermissions(member, {
-              SEND_MESSAGES: true
-            })
-          })
           bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted.`)
           message.channel.send('unmuted the user.')
         }, ms(thetime))
@@ -824,7 +821,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
         if (!member) return message.channel.send('You need to mention a user!')
-        let muteRole = message.guild.roles.find(r => r.name === 'Muted')
+        const muteRole = message.guild.roles.find(r => r.name === 'Muted')
 
         member.removeRole(muteRole)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted in ${message.guild.name}.`)
