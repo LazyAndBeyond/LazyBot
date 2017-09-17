@@ -19,7 +19,7 @@ try {
   }
 }
 const admins = config.admins
-const swearWords = ['fuck', 'shit', 'dick', 'pussy', 'fuck off', 'fuck you', 'fucking', 'cunt', 'faggot', 'ass', 'asshole']
+const swearWords = ['fuck', 'shit', 'Shit ', 'SHIT', 'FUCK', 'dick', 'pussy', 'fuck off', 'fuck you', 'fucking', 'cunt', 'faggot', 'ass', 'asshole']
 const bot = new Discord.Client({autoReconnect: true})
 const notes = require('./data/notes.json')
 const os = require('os')
@@ -176,7 +176,7 @@ LET'S GO!
     var errsize = Number(fs.statSync('./data/errors.json')['size'])
     console.log('Current error log size is ' + errsize + ' Bytes')
     if (errsize > 5000) {
-      errorlog = {}
+      const errorlog = {}
       fs.writeFile('./data/errors.json', JSON.stringify(errorlog), function (err) {
         if (err) return console.log("Uh oh we couldn't wipe the error log")
         console.log('Just to say, we have wiped the error log on your system as its size was too large')
@@ -318,24 +318,31 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
       nekoclient.kiss().then((kiss) => message.channel.send(kiss.url))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kis .${rb}`)
     }
     if (message.content.startsWith(prefix + 'pat')) {
       nekoclient.pat().then((pat) => message.channel.send(pat.url))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
     if (message.content.startsWith(prefix + 'hug')) {
       nekoclient.hug().then((hug) => message.channel.send(hug.url))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}hug .${rb}`)
     }
     if (message.content.startsWith(prefix + 'neko')) {
       nekoclient.neko().then((neko) => message.channel.send(neko.neko))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}neko .${rb}`)
     }
     if (message.content.startsWith(prefix + 'why')) {
       nekoclient.why().then((why) => message.channel.send(why.why))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}why .${rb}`)
     }
     if (message.content.startsWith(prefix + 'lewdNeko')) {
       nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
     }
     if (message.content.startsWith(prefix + 'lizard')) {
       nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lizard .${rb}`)
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
@@ -368,9 +375,13 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'avatar')) {
       let user = message.mentions.users.first()
       if (!user) message.channel.send('you need to mention a user')
-      let avatar = message.mentions.users.first().displayAvatarURL()
-      if (!avatar) message.channel.send('this user has no avatar.')
-      message.channel.send(avatar)
+      let avatar = user.displayAvatarURL()
+      message.channel.send({files: [
+        {
+          attachment: avatar,
+          name: 'avatar.png'
+        }
+      ]})
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}avatar .${rb}`)
     }
     if (message.content.startsWith(prefix + 'servers')) {
@@ -672,7 +683,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
 
     if (message.content.startsWith(prefix + 'stop')) {
       let player = message.guild.voiceConnection.player.dispatcher
-      var chan = message.member.voiceChannel
+      let chan = message.member.voiceChannel
       message.channel.send('Stopping music...')
       player.end()
       chan.leave()
@@ -957,9 +968,8 @@ ${cdb}`)
     if (message.content.startsWith(prefix + 'announce ', '')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
         console.log(object)
-        var tmp = bot.guilds.map(g => g.id)
 
-        var args = message.content.replace(prefix + 'announce ', '')
+        let args = message.content.replace(prefix + 'announce ', '')
         var GuildIDS = bot.guilds.map(x => x.id)
         for (i = 0; i < GuildIDS.length; i++) {
           if (!array.includes(GuildIDS[i])) {
