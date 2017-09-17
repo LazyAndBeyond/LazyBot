@@ -795,7 +795,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
             })
 
             message.guild.channels.map((channel, id) => {
-              channel.overwritePermissions(muteRole, {
+              channel.overwritePermissions(muteRole.id, {
                 SEND_MESSAGES: false,
                 ADD_REACTIONS: false
               })
@@ -804,13 +804,13 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
             console.log(error)
           }
         }
-        member.addRole(muteRole)
+        member.addRole(muteRole.id)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
 
         setTimeout(function () {
-          member.removeRole(muteRole)
+          member.removeRole(muteRole.id)
           bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted.`)
           message.channel.send('unmuted the user.')
         }, ms(thetime))
