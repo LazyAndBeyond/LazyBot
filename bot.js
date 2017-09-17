@@ -790,9 +790,11 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
             muteRole = message.guild.createRole({
               name: 'Muted',
               color: 'BLACK',
+              position: 5,
               permissions: []
             })
 
+            member.addRole(muteRole)
             message.guild.channels.map((channel, id) => {
               channel.overwritePermissions(muteRole, {
                 SEND_MESSAGES: false,
