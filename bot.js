@@ -283,7 +283,7 @@ ${prefix}swearDisable - disables swear auto detect system.
 ${prefix}mylevel - Shows you your current lvl and points (you can lvl up by using commands).
 ${prefix}resetwarn <user> - Deletes a warning from a user.
 ${prefix}checkwarn <user> - Lookup warning information on a user.
-${prefix}listemojis - give you all comstume emojis in the server (only costume emojis).
+${prefix}emojis - give you all comstume emojis in the server (only costume emojis).
 ${prefix}review - send a review to the bot dev server.
 ${prefix}eval - (Owner only).
 ${prefix}clearqueue - Clears the list of queues.
@@ -389,7 +389,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (!user) message.channel.send('you need to mention a user!')
 
       let embed = new Discord.RichEmbed()
-      .setAuthor(message.author.username)
+      .setAuthor(message.author.username + 'requested user info of ' + user.tag)
       .setDescription("This is the user's info!")
       .setColor('#9B59B6')
       .addField('Full Username', user.tag)
@@ -397,6 +397,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       .addField('Created At', user.createdAt)
 
       message.channel.send({embed: embed})
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userinfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'servers')) {
       message.channel.send("I'm currently on **" + bot.guilds.size + 'server(s)**')
@@ -443,10 +444,10 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       }
       })
     }
-    if (message.content.startsWith(prefix + 'listemojis')) {
+    if (message.content.startsWith(prefix + 'emojis')) {
       const emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
       message.channel.send(`Here are** ${message.guild.name} **Emojis: \n${emojiList}`)
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}listemojis .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}emojis .${rb}`)
     }
     if (message.content === prefix + 'uptime') {
       message.channel.send('I have been up for `' + secondsToString(process.uptime()) + '` - My process was started at this time --> `' + started + '`')
