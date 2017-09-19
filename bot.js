@@ -841,7 +841,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (!id) message.channel.send('couldnt find the dev server')
       const channel = bot.channels.get('283906210049163265')
       if (!channel) message.channel.send('couldnt find the channel')
-      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth + '/' + time.getFullYear + ']**')
+      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
       message.channel.send('FeedBack Successfully send.')
     }
