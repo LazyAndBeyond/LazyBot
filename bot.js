@@ -389,7 +389,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (!user) message.channel.send('you need to mention a user!')
 
       let embed = new Discord.RichEmbed()
-      .setAuthor(message.author.username + 'requested user info of ' + user.tag)
+      .setAuthor(message.author.username + ' requested user info of ' + user.tag)
       .setDescription("This is the user's info!")
       .setColor('#9B59B6')
       .addField('Full Username', user.tag)
@@ -400,7 +400,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userinfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'servers')) {
-      message.channel.send("I'm currently on **" + bot.guilds.size + 'server(s)**')
+      message.channel.send("I'm currently on **" + bot.guilds.size + '** Server(s) ,with **' + bot.users.size + '** Members')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}servers .${rb}`)
     }
     if (message.content.startsWith(prefix + 'DM')) {
@@ -841,7 +841,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (!id) message.channel.send('couldnt find the dev server')
       const channel = bot.channels.get('283906210049163265')
       if (!channel) message.channel.send('couldnt find the channel')
-      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + new Date() + ' ]**')
+      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**' + time.getDate() + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
       message.channel.send('FeedBack Successfully send.')
     }
