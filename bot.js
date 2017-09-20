@@ -304,7 +304,8 @@ ${prefix}uptime - Shows bot uptime.
 ${prefix}support - gives you the bot support server.
 ${prefix}avatar <mention> - gives you someones avatar.
 ${prefix}Info - send an embed with some bot info.
-${prefix}sys - Gets system information.${rb}`)
+${prefix}sys - Gets system information.
+${prefix}serverInfo - Gets the server info.${rb}`)
       message.author.send(`${rb}
 ${prefix}kiss - gives you a kiss gif.
 ${prefix}hug - gives you a hug gif.
@@ -661,7 +662,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let player = message.guild.voiceConnection.player.dispatcher
       if (!player || player.paused) return message.channel.send('Bot is not playing!')
       message.channel.send('Skipping song...')
-      player.end()
+      player.end(1)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
@@ -759,8 +760,9 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}say .${rb}`)
       }
     }
-    if (message.content.startsWith(prefix + 'serverinfo')) {
-      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${message.guild.channels.size}**\nVoice Channels: **${message.guild.voiceChannel}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
+    if (message.content.startsWith(prefix + 'serverInfo')) {
+      let voiceChannels = message.guild.channel.type = 'voice'
+      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${message.guild.channels.size}**\nVoice Channels: **${voiceChannels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
