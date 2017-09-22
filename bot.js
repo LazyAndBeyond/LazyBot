@@ -787,6 +787,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         if (!thetime) return message.channel.send('ther is no time specified.')
         let member = message.mentions.members.first()
         if (!member) return message.channel.send('You need to mention a user!')
+        console.log(member)
         let muteRole = message.guild.roles.find(r => r.name === 'Muted')
         if (!muteRole) {
           try {
@@ -807,7 +808,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
             console.log(error)
           }
         }
-        member.addRole(muteRole.id)
+        member.id.addRole(muteRole.id)
         bot.users.find('id', message.mentions.members.first().id).send(`You have been mutted for** ${time} ** in ${message.guild.name}.`)
         message.channel.send('muted the user.')
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mute .${rb}`)
