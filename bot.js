@@ -369,9 +369,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let Searcher = new Pornsearch(args, driver)
 
       Searcher.gifs()
-      .then((gifs) => {
-        message.channel.send(gifs)
-      })
+      .then(gifs => message.channel.send(gifs.url))
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
