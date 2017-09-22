@@ -353,7 +353,9 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
       } else {
-        message.chanel.send('this command only work on nsfw channels')
+        if (!message.channel.nsfw) {
+          message.chanel.send('this command only work on nsfw channels')
+        }
       }
     }
     if (message.content.startsWith(prefix + 'lizard')) {
@@ -461,7 +463,9 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       })
     }
     if (message.content.startsWith(prefix + 'emojis')) {
-      const emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
+      let emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
+      if (!emojiList) message.channel.send('you have no costume emojis in your guild!')
+
       message.channel.send(`Here are** ${message.guild.name} **Emojis: \n${emojiList}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}emojis .${rb}`)
     }
