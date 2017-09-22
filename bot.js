@@ -155,6 +155,10 @@ function isCommander (id) {
   return false
 }
 
+function getRandomHex () {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16)
+}
+
 bot.on('ready', function () {
   try {
     config.client_id = bot.user.id
@@ -320,10 +324,10 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'kiss')) {
       nekoclient.kiss().then((kiss) => message.channel.send({embed: {
         color: 3447003,
-        url: kiss.url
+        Description: kiss.url
       }}))
 
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kis .${rb}`)
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
     }
     if (message.content.startsWith(prefix + 'pat')) {
       nekoclient.pat().then((pat) => message.channel.send(pat.url))
@@ -342,8 +346,10 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}why .${rb}`)
     }
     if (message.content.startsWith(prefix + 'lewdNeko')) {
-      nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
+      if (message.channel.type === 'nsfw') {
+        nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
+      }
     }
     if (message.content.startsWith(prefix + 'lizard')) {
       nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
@@ -396,7 +402,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let embed = new Discord.RichEmbed()
       .setAuthor(message.author.username + ' requested user info of ' + user.tag)
       .setDescription("This is the user's info!")
-      .setColor('#9B59B6')
+      .setColor(getRandomHex())
       .addField('Full Username', user.tag)
       .addField('ID', user.id)
       .addField('Created At', user.createdAt)
