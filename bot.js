@@ -1005,7 +1005,7 @@ ${cdb}`)
       }
     }
   } catch (err) {
-    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Bot CRASHED!!${rb}`)
+    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Bot CRASHED!! <---> Error: \n${err} ${rb}`)
     console.log('WELL LADS LOOKS LIKE SOMETHING WENT WRONG!' + err.stack)
     errorlog[String(Object.keys(errorlog).length)] = {
       'code': err.code,
