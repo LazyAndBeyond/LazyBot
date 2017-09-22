@@ -318,7 +318,11 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
-      nekoclient.kiss().then((kiss) => message.channel.send(kiss.url))
+      nekoclient.kiss().then((kiss) => message.channel.send({embed: {
+        color: 3447003,
+        url: kiss.url
+      }}))
+
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kis .${rb}`)
     }
     if (message.content.startsWith(prefix + 'pat')) {
