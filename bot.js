@@ -805,7 +805,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
               })
             })
           } catch (error) {
-            console.log(error)
+            bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(error)
           }
         }
         member.addRole(muteRole.id)
