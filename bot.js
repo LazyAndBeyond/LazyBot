@@ -7,7 +7,6 @@ const array = []
 const array1 = require('./data/disableS')
 const object = require('./data/default.json')
 const Pornsearch = require('pornsearch')
-const Searcher = new Pornsearch(query, driver = 'pornhub')
 try {
   var config = require('./config.json')
   console.log('Config file detected!')
@@ -367,9 +366,10 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let args = message.content.split(' ').splice(1)
       if (!args) message.channel.send('specify want you want me to search')
 
-      Pornsearch.search(args)
-      .gifs()
-      .then(gifs => message.channel.send(gifs))
+      Pornsearch.driver('pornhub').gifs()
+      .then((gifs) => {
+        message.channel.send(gifs)
+      })
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
