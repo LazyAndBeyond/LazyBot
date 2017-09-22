@@ -332,6 +332,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'pat')) {
       let user = message.mentions.users.first()
       if (!user) message.channel.send('O_o you wanna hug yourself??')
+
       nekoclient.pat().then((pat) => message.channel.send(`${user} , ${message.author.username} patted you! \n${pat.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
@@ -348,9 +349,11 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}why .${rb}`)
     }
     if (message.content.startsWith(prefix + 'lewdNeko')) {
-      if (message.channel.type === 'nsfw') {
+      if (message.channel.nsfw) {
         nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
+      } else {
+        message.chanel.send('this command only work on nsfw channels')
       }
     }
     if (message.content.startsWith(prefix + 'lizard')) {
