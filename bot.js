@@ -365,7 +365,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'porn')) {
       let args = message.content.split(' ').splice(1)
       if (!args) message.channel.send('specify want you want me to search')
-      let driver = 'pornhub'
+      let driver = 'sex'
       let Searcher = new Pornsearch(args, driver)
 
       Searcher.gifs()
