@@ -333,7 +333,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let user = message.mentions.users.first()
       if (!user) message.channel.send('O_o you wanna hug yourself??')
 
-      nekoclient.pat().then((pat) => message.channel.send(`${user} , ${message.author.username} patted you! \n${pat.url}`))
+      nekoclient.pat().then((pat) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${pat.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
     if (message.content.startsWith(prefix + 'hug')) {
