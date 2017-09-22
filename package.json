@@ -12,7 +12,8 @@
     "opusscript": "0.0.3",
     "script": "^0.1.4",
     "youtube-search": "^1.0.10",
-    "ytdl-core": "^0.7.24"
+    "ytdl-core": "^0.7.24",
+    "pornsearch": "2.0.2"
   },
   "devDependencies": {},
   "scripts": {
