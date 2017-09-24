@@ -325,7 +325,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'wallpapers')) {
       randomAnimeWallpapers()
       .then(images => {
-        console.log(images)
+        message.channel.send(images)
       })
     }
     if (message.content.startsWith(prefix + 'kiss')) {
