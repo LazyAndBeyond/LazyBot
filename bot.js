@@ -4,6 +4,7 @@ const started = Date()
 const time = new Date()
 const errorlog = require('./data/errors.json')
 const array = []
+const randomAnimeWallpapers = require('random-anime-wallpapers')
 const array1 = require('./data/disableS')
 const object = require('./data/default.json')
 const Pornsearch = require('pornsearch')
@@ -321,10 +322,18 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
+    if (message.content.startsWith(prefix + 'wallpapers')) {
+      randomAnimeWallpapers()
+      .then(images => {
+        console.log(images)
+      })
+    }
     if (message.content.startsWith(prefix + 'kiss')) {
+      let neko = nekoclient.kiss().then((kiss) => kiss.url)
       let Rembed = new Discord.RichEmbed()
+
       .setColor(getRandomHex())
-      .setURL(nekoclient.kiss().then((kiss) => kiss.url))
+      .setURL(neko)
       nekoclient.kiss().then((kiss) => message.channel.send(Rembed))
 
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
