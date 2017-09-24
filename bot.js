@@ -325,7 +325,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'wallpapers')) {
       randomAnimeWallpapers()
       .then(images => {
-        message.channel.send(images)
+        message.channel.send(images.url)
       })
     }
     if (message.content.startsWith(prefix + 'kiss')) {
@@ -699,7 +699,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let player = message.guild.voiceConnection.player.dispatcher
       if (!player || player.paused) return message.channel.send('Bot is not playing!')
       message.channel.send('Skipping song...')
-      player.end(1)
+      this.player.end()
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
