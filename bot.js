@@ -323,6 +323,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
       let Rembed = new Discord.RichEmbed()
+      .setColor(getRandomHex())
       .setURL(nekoclient.kiss().then((kiss) => kiss.url))
       nekoclient.kiss().then((kiss) => message.channel.send(Rembed))
 
