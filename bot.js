@@ -361,11 +361,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'nsfw')) {
-      Videos.search({
-        search: 'Hard'
-      }).then(videos => {
-        message.channel.send(videos)
-      })
+      Videos.search({search: 'Hard'}).then(videos => message.channel.send(1, videos))
     }
     if (message.content.startsWith(prefix + 'lizard')) {
       nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
