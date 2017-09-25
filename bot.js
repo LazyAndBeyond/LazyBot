@@ -4,10 +4,10 @@ const started = Date()
 const time = new Date()
 const errorlog = require('./data/errors.json')
 const array = []
-const randomAnimeWallpapers = require('random-anime-wallpapers')
 const array1 = require('./data/disableS')
 const object = require('./data/default.json')
-const Pornsearch = require('pornsearch')
+const Pornhub = require('pornhub-api')
+const Videos = new Pornhub.Videos()
 try {
   var config = require('./config.json')
   console.log('Config file detected!')
@@ -322,19 +322,12 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
-    if (message.content.startsWith(prefix + 'wallpapers')) {
-      randomAnimeWallpapers()
-      .then(images => {
-        message.channel.send(images.url)
-      })
-    }
     if (message.content.startsWith(prefix + 'kiss')) {
-      let neko = nekoclient.kiss().then((kiss) => kiss.url)
-      let Rembed = new Discord.RichEmbed()
-
-      .setColor(getRandomHex())
-      .setURL(neko)
-      nekoclient.kiss().then((kiss) => message.channel.send(Rembed))
+      nekoclient.kiss().then((kiss) => message.channel.send({embed: {
+        color: (getRandomHex()),
+        icon_url: kiss.url
+      }
+      }))
 
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
     }
@@ -367,18 +360,16 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         }
       }
     }
+    if (message.content.startsWith(prefix + 'nsfw')) {
+      Videos.search({
+        search: 'Hard'
+      }).then(videos => {
+        message.channel.send(videos)
+      })
+    }
     if (message.content.startsWith(prefix + 'lizard')) {
       nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lizard .${rb}`)
-    }
-    if (message.content.startsWith(prefix + 'porn')) {
-      let args = message.content.split(' ').splice(1)
-      if (!args) message.channel.send('specify want you want me to search')
-      let driver = 'sex'
-      let Searcher = new Pornsearch(args, driver)
-
-      Pornsearch.driver('sex').gifs()
-      .then(gifs => message.channel.send(gifs.url))
     }
     if (message.content.startsWith(prefix + 'support')) {
       message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
