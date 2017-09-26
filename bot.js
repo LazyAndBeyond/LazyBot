@@ -6,8 +6,6 @@ const errorlog = require('./data/errors.json')
 const array = []
 const array1 = require('./data/disableS')
 const object = require('./data/default.json')
-const Pornhub = require('pornhub-api')
-const Videos = new Pornhub.Videos()
 try {
   var config = require('./config.json')
   console.log('Config file detected!')
@@ -359,9 +357,6 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
           message.chanel.send('this command only work on nsfw channels')
         }
       }
-    }
-    if (message.content.startsWith(prefix + 'nsfw')) {
-      Videos.search({search: 'Hard'}).then(videos => message.channel.send(1, videos))
     }
     if (message.content.startsWith(prefix + 'lizard')) {
       nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
