@@ -781,7 +781,6 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'serverInfo')) {
-      bot.guilds.channels.find('type', 'voice')
       message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **<@${message.guild.owner.id}>**\nChannels: **${message.channels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
