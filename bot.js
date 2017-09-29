@@ -392,7 +392,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'avatar')) {
       let user = message.mentions.users.first()
       if (!user) message.channel.send('you need to mention a user')
-      let avatar = user.avatarURL()
+      let avatar = user.displayAvatarURL
       message.channel.send({files: [
         {
           attachment: avatar,
