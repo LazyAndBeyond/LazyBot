@@ -322,21 +322,21 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
       let user = message.mentions.users.first()
-      if (!user) message.channel.send('O_o you wanna kissyourself??')
+      if (!user) return message.channel.send('O_o you wanna kissyourself??')
       nekoclient.kiss().then((kiss) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${kiss.url}`))
 
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
     }
     if (message.content.startsWith(prefix + 'pat')) {
       let user = message.mentions.users.first()
-      if (!user) message.channel.send('O_o you wanna pat yourself??')
+      if (!user) return message.channel.send('O_o you wanna pat yourself??')
 
       nekoclient.pat().then((pat) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${pat.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
     if (message.content.startsWith(prefix + 'hug')) {
       let user = message.mentions.users.first()
-      if (!user) message.channel.send('O_o you wanna hug yourself??')
+      if (!user) return message.channel.send('O_o you wanna hug yourself??')
 
       nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${hug.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}hug .${rb}`)
@@ -405,7 +405,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'userInfo')) {
       let user = message.mentions.users.first()
-      if (!user) message.channel.send('you need to mention a user!')
+      if (!user) return message.channel.send('you need to mention a user!')
 
       let embed = new Discord.RichEmbed()
       .setAuthor(message.author.username + ' requested user info of ' + user.tag)
@@ -465,7 +465,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'emojis')) {
       let emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
-      if (!emojiList) message.channel.send('you have no costume emojis in your guild!')
+      if (!emojiList) return message.channel.send('you have no costume emojis in your guild!')
 
       message.channel.send(`Here are** ${message.guild.name} **Emojis: \n${emojiList}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}emojis .${rb}`)
@@ -640,7 +640,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     let userData = points[message.author.id]
     userData.points++
 
-    let curLevel = Math.floor(0.1 * Math.sqrt(userData.points))
+    let curLevel = Math.floor(1.0 * Math.sqrt(userData.points))
     if (curLevel > userData.level) {
         // Level up!
       userData.level = curLevel
@@ -682,7 +682,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let player = message.guild.voiceConnection.player.dispatcher
       if (!player || player.paused) return message.channel.send('Bot is not playing!')
       message.channel.send('Skipping song...')
-      this.player.end()
+      player.end()
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
@@ -782,7 +782,8 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'serverInfo')) {
       let voiceChannels = (message.channel.type === 'voice')
-      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${message.guild.channels.size}**\nVoice Channels: **${voiceChannels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
+      let txtChannels = (message.guild.channels.type === 'text').size
+      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${txtChannels.size}**\nVoice Channels: **${voiceChannels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
@@ -819,12 +820,12 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
             })
 
             message.guild.channels.map((channel, id) => {
-              channel.overwritePermissions(muteRole.id, {
+              channel.overwritePermissions(muteRole, {
                 SEND_MESSAGES: false,
                 ADD_REACTIONS: false
               })
             })
-            member.addRole(muteRole.id)
+            member.addRole(muteRole)
           } catch (error) {
             bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(error)
           }
@@ -1007,10 +1008,11 @@ ${cdb}`)
 
         let args = message.content.replace(prefix + 'announce ', '')
         var GuildIDS = bot.guilds.map(x => x.id)
+        var default_Channel = message.guild.channels.find('name', 'general')
         for (i = 0; i < GuildIDS.length; i++) {
           if (!array.includes(GuildIDS[i])) {
             if (!object.hasOwnProperty(GuildIDS[i])) {
-              bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
+              bot.channels.get(bot.guilds.get(GuildIDS[i]).default_Channel.id).send(args)
               bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
             } else {
               if (!array.includes(GuildIDS[i])) {
