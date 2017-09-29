@@ -806,7 +806,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         let args = message.content.split(' ').slice(1)
         let thetime = args[1]
         if (!thetime) return message.channel.send('ther is no time specified.')
-        let member = message.mentions.members.first().id
+        let member = message.mentions.members.first()
         if (!member) return message.channel.send('You need to mention a user!')
         console.log(member)
         let muteRole = message.guild.roles.find(r => r.name === 'Muted')
