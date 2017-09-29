@@ -322,7 +322,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
       let user = message.mentions.users.first()
-      if (!user) return message.channel.send('O_o you wanna kissyourself??')
+      if (!user) return message.channel.send('O_o you wanna kiss yourself??')
       nekoclient.kiss().then((kiss) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${kiss.url}`))
 
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
@@ -406,10 +406,10 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       if (!user) return message.channel.send('you need to mention a user!')
 
       let embed = new Discord.RichEmbed()
-      .setAuthor(message.author.username + ' requested user info of ' + user.tag)
+      .setAuthor(message.author.username + ' requested user info of ' + user.username)
       .setDescription("This is the user's info!")
       .setColor(getRandomHex())
-      .setStatus('online', 'idle', 'invisible', 'dnd')
+      .setStatus(message.member.presence.status)
       .addField(user.avatarURL)
       .addField('Full Username', user.tag)
       .addField('ID', user.id)
@@ -781,10 +781,8 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'serverInfo')) {
-      let voiceChannels = (message.channel.type === 'voice')
-      let txtChannels = (message.guild.channels.type === 'text')
       bot.guilds.channels.find('type', 'voice')
-      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${txtChannels.size}**\nVoice Channels: **${voiceChannels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
+      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **<@${message.guild.owner.id}>**\nChannels: **${message.channels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
