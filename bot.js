@@ -640,7 +640,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     let userData = points[message.author.id]
     userData.points++
 
-    let curLevel = Math.floor(1.0 * Math.sqrt(userData.points))
+    let curLevel = Math.floor(0.1 * Math.sqrt(userData.points))
     if (curLevel > userData.level) {
         // Level up!
       userData.level = curLevel
