@@ -354,9 +354,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
       } else {
-        if (!message.channel.nsfw) {
-          message.chanel.send('this command only work on nsfw channels')
-        }
+        message.channel.send('this command only work on nsfw channels')
       }
     }
     if (message.content.startsWith(prefix + 'lizard')) {
@@ -784,7 +782,8 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     }
     if (message.content.startsWith(prefix + 'serverInfo')) {
       let voiceChannels = (message.channel.type === 'voice')
-      let txtChannels = (message.guild.channels.type === 'text').size
+      let txtChannels = (message.guild.channels.type === 'text')
+      bot.guilds.channels.find('type', 'voice')
       message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner.username}#${message.guild.owner.discriminator}**\nText Channels: **${txtChannels.size}**\nVoice Channels: **${voiceChannels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
     }
