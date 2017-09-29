@@ -394,7 +394,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'avatar')) {
       let user = message.mentions.users.first()
       if (!user) message.channel.send('you need to mention a user')
-      let avatar = user.displayAvatarURL()
+      let avatar = user.avatarURL()
       message.channel.send({files: [
         {
           attachment: avatar,
@@ -411,6 +411,8 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       .setAuthor(message.author.username + ' requested user info of ' + user.tag)
       .setDescription("This is the user's info!")
       .setColor(getRandomHex())
+      .setStatus()
+      .addField(message.author.avatarURL)
       .addField('Full Username', user.tag)
       .addField('ID', user.id)
       .addField('Created At', user.createdAt)
@@ -818,14 +820,6 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
               position: 5,
               permissions: []
             })
-
-            message.guild.channels.map((channel, id) => {
-              channel.overwritePermissions(muteRole, {
-                SEND_MESSAGES: false,
-                ADD_REACTIONS: false
-              })
-            })
-            member.addRole(muteRole)
           } catch (error) {
             bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(error)
           }
