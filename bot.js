@@ -321,23 +321,24 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
     if (message.content.startsWith(prefix + 'kiss')) {
-      nekoclient.kiss().then((kiss) => message.channel.send({embed: {
-        color: (getRandomHex()),
-        icon_url: kiss.url
-      }
-      }))
+      let user = message.mentions.users.first()
+      if (!user) message.channel.send('O_o you wanna kissyourself??')
+      nekoclient.kiss().then((kiss) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${kiss.url}`))
 
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
     }
     if (message.content.startsWith(prefix + 'pat')) {
       let user = message.mentions.users.first()
-      if (!user) message.channel.send('O_o you wanna hug yourself??')
+      if (!user) message.channel.send('O_o you wanna pat yourself??')
 
       nekoclient.pat().then((pat) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${pat.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
     if (message.content.startsWith(prefix + 'hug')) {
-      nekoclient.hug().then((hug) => message.channel.send(hug.url))
+      let user = message.mentions.users.first()
+      if (!user) message.channel.send('O_o you wanna hug yourself??')
+
+      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${hug.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}hug .${rb}`)
     }
     if (message.content.startsWith(prefix + 'neko')) {
@@ -393,7 +394,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'avatar')) {
       let user = message.mentions.users.first()
       if (!user) message.channel.send('you need to mention a user')
-      let avatar = message.mentions.users.first().displayAvatarURL()
+      let avatar = user.displayAvatarURL()
       message.channel.send({files: [
         {
           attachment: avatar,
