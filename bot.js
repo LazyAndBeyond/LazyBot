@@ -435,7 +435,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'Info')) {
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
       message.channel.send({embed: {
-        color: getRandomHex(),
+        color: 35214,
         author: {
           name: bot.user.username,
           icon_url: bot.user.avatarURL
@@ -1006,11 +1006,10 @@ ${cdb}`)
 
         let args = message.content.replace(prefix + 'announce ', '')
         var GuildIDS = bot.guilds.map(x => x.id)
-        var default_Channel = message.guild.channels.find('name', 'general')
         for (i = 0; i < GuildIDS.length; i++) {
           if (!array.includes(GuildIDS[i])) {
             if (!object.hasOwnProperty(GuildIDS[i])) {
-              bot.channels.get(bot.guilds.get(GuildIDS[i]).default_Channel.id).send(args)
+              bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
               bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
             } else {
               if (!array.includes(GuildIDS[i])) {
