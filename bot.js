@@ -435,7 +435,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'Info')) {
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
       message.channel.send({embed: {
-        color: 3447489,
+        color: getRandomHex(),
         author: {
           name: bot.user.username,
           icon_url: bot.user.avatarURL
