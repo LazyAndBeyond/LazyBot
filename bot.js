@@ -349,8 +349,7 @@ ${prefix}nsfw <args> - sends a nsfw gif.
 ${prefix}wallpapers <args> - sends a wallpaper of what you asked for. 
 ${prefix}gifs <args> - sends a gif. 
 ${prefix}support - gives you the bot support server.
-${prefix}avatar <mention> - gives you someones avatar.
-${prefix}Info - send an embed with some bot info. ${rb}`)
+${prefix}avatar <mention> - gives you someones avatar. ${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
