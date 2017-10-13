@@ -33,13 +33,18 @@ const ytdl = require('ytdl-core')
 const search = require('youtube-search')
 const ms = require('ms')
 const neko = require('neko.js')
+const giphy = require('quick-giphy')
+const randomAnimeWallpapers = require('random-anime-wallpapers')
+const http = require('http')
+const express = require('express')
+const app = express()
 const nekoclient = new neko.Client({
   key: 'dnZ4fFJbjtch56pNbfrZeSRfgWqdPDgf'
 })
 const opts = {
   part: 'snippet',
   maxResults: 10,
-  key: process.env.youtube_api_key
+  key: config.youtube_api_key
 }
 var intent
 
@@ -228,11 +233,38 @@ bot.on('guildCreate', guild => {
   const rb = '```'
   bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Joined: "${guild.name}" (id: "${guild.id}"). \nWith: "${guild.memberCount}" members!${rb}`)
   bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! With ' + bot.users.size + ' members!')
+    let muteRole = guild.roles.find(r => r.name === 'Muted')
+  if (!muteRole) {
+    try {
+      muteRole = guild.createRole({
+        name: 'Muted',
+        color: 'BLACK',
+        position: 5,
+        permissions: []
+      })
+    } catch (error) {
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(error)
+    }
+  }
+  guild.channels.map((channel, id) => {
+    channel.overwritePermissions(muteRole, {
+      SEND_MESSAGES: false,
+      ADD_REACTIONS: false
+    })
+  })
   bot.on('guildDelete', guild => {
     bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Leaft: "${guild.name}" (id: "${guild.id}")${rb}`)
     bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! With ' + bot.users.size + ' members!')
   })
 })
+app.get('/', (request, response) => {
+  console.log(Date.now() + ' Ping Received')
+  response.sendStatus(200)
+})
+app.listen(process.env.PORT)
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`)
+}, 280000)
 bot.on('message', function (message) {
   try {
     if (message.author.bot) return
@@ -267,18 +299,17 @@ bot.on('message', function (message) {
     if (message.content.startsWith(prefix + 'help')) {
       message.author.send(`${rb}
 ${prefix}help - Shows this message.
-${prefix}announce - announce a message to all servers (Owner Only).
+${prefix}announce <args> - announce a message to all servers (Owner Only).
 ${prefix}ping - Ping/Pong with ms amount.
 ${prefix}servers Shows amount of servers.
-${prefix}play - Plays the song you requested.
-${prefix}voteskip - You may vote to skip a song.
+${prefix}play <args> - Plays the song you requested.
 ${prefix}volume <volume> - Change the volume.
 ${prefix}queue - Check the list of songs that are queued.
 ${prefix}np/nowplaying - Check the current song out.
 ${prefix}skip - Skips the playing song.
 ${prefix}pause - Pause the current song.
-${prefix}kick <reason> - kick a member from the server.
-${prefix}ban <reason> - ban a member from the server.
+${prefix}kick <mention> <reason> - kick a member from the server.
+${prefix}ban <mention> <reason> - ban a member from the server.
 ${prefix}enable - enable resiving announcements (resiving announcements is seted to enable by default).
 ${prefix}disable - disable resiving announcements.
 ${prefix}swearEnable - enables swear auto detect system.
@@ -287,36 +318,39 @@ ${prefix}mylevel - Shows you your current lvl and points (you can lvl up by usin
 ${prefix}resetwarn <user> - Deletes a warning from a user.
 ${prefix}checkwarn <user> - Lookup warning information on a user.
 ${prefix}emojis - give you all comstume emojis in the server (only costume emojis).
-${prefix}review - send a review to the bot dev server.
-${prefix}eval - (Owner only).
+${prefix}review <args> - send a review to the bot dev server.
+${prefix}eval <code> - (Owner only).
 ${prefix}clearqueue - Clears the list of queues.
-${prefix}say - Admin only.
+${prefix}say <args> - Admin only.
 ${prefix}resume - Resumes paused song.
 ${prefix}about - Info about the bot.
 ${prefix}shutdown - Power off the bot (Owner only).
 ${prefix}invite - Creates OAuth URL for bot.
 ${prefix}userblacklist <add/remove> <user id> - Blacklists a user.
 ${prefix}warn <user> <reason> - Warns a user for the thing they did wrong.
-${prefix}remindme <time> <text> - Reminds you of something in a certain time.
+${prefix}remindme <time> <args> - Reminds you of something in a certain time.
 ${prefix}serverblacklist <add/remove> <server id> - Adds or removes servers from blacklist.
-${prefix}note - Takes a note.
+${prefix}note <your_note> - Takes a note.
 ${prefix}mynotes - Shows notes you have taken.
 ${prefix}kill - the bot leaves your server (server owner only).
-${prefix}setName - change the bot name (Owner only).
+${prefix}setName <name> - change the bot name (Owner only).
 ${prefix}uptime - Shows bot uptime.
-${prefix}support - gives you the bot support server.
-${prefix}avatar <mention> - gives you someones avatar.
-${prefix}Info - send an embed with some bot info.
 ${prefix}sys - Gets system information.
 ${prefix}serverInfo - Gets the server info.${rb}`)
       message.author.send(`${rb}
-${prefix}kiss - gives you a kiss gif.
-${prefix}hug - gives you a hug gif.
-${prefix}pat - gives you a pat gif.
+${prefix}kiss <mention> - gives you a kiss gif.
+${prefix}hug <mention> - gives you a hug gif.
+${prefix}pat <mention> - gives you a pat gif.
 ${prefix}neko - gives you a neko gif.
 ${prefix}why - sends a question.
 ${prefix}LewdNeko - gives you a LewdNeko pic.
-${prefix}lizard - gives you a lizard pic.${rb}`)
+${prefix}lizard - gives you a lizard pic.
+${prefix}nsfw <args> - sends a nsfw gif. 
+${prefix}wallpapers <args> - sends a wallpaper of what you asked for. 
+${prefix}gifs <args> - sends a gif. 
+${prefix}support - gives you the bot support server.
+${prefix}avatar <mention> - gives you someones avatar.
+${prefix}Info - send an embed with some bot info. ${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
@@ -338,7 +372,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let user = message.mentions.users.first()
       if (!user) return message.channel.send('O_o you wanna hug yourself??')
 
-      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${hug.url}`))
+      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${hug.url}`))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}hug .${rb}`)
     }
     if (message.content.startsWith(prefix + 'neko')) {
@@ -377,9 +411,34 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         }, 2000)
       }
     }
+    if (message.content.startsWith(prefix + 'nsfw')) {
+      if (message.channel.nsfw) {
+       let args = message.content.split(' ').splice(1)
+       let Pornsearch = require('pornsearch').search(args);
+ 
+       Pornsearch.gifs()
+       .then(gifs => message.channel.send(gifs[0].url))
+    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}nsfw .${rb}`)
+      } else {
+        message.channel.send('this command only work on nsfw channels')
+      }
+    }
+    if (message.content.startsWith(prefix + 'wallpapers')) {
+      let args = message.content.split(' ').splice(1)
+      randomAnimeWallpapers(args)
+      .then(images => {
+      message.channel.send(images[0].thumb)
+
+     })
+    }
+    if (message.content.startsWith(prefix + 'gifs')) {
+      let args = message.content.split(' ').splice(1)
+      giphy({apiKey: 'P66vSybfG3Deu1DBHYc8vNnRwKHuV3d5', query: args})
+  .then(url => message.channel.send(url))
+    }
     if (message.content.startsWith(prefix + 'setName')) {
       if (message.author.id === config.owner_id) {
-        var name = message.content.split(' ').splice(1).join(' ')
+        let name = message.content.split(' ').splice(1).join(' ')
         if (!name) message.channel.send('you need to specify a name.')
         console.log('Bot name got setted to ' + name)
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setName .${rb}`)
@@ -409,8 +468,8 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       .setAuthor(message.author.username + ' requested user info of ' + user.username)
       .setDescription("This is the user's info!")
       .setColor(getRandomHex())
+      .addField('Avatar', user.displayAvatarURL)
       .addField('Statu:', message.member.presence.status)
-      .addField('Avatar:', user.displayAvatarURL)
       .addField('Full Username:', user.username)
       .addField('ID:', user.id)
       .addField('Created At:', user.createdAt)
@@ -423,7 +482,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}servers .${rb}`)
     }
     if (message.content.startsWith(prefix + 'DM')) {
-      const args = message.content.split(' ').splice(1)
+      let args = message.content.split(' ').splice(1)
       if (!args) message.channel.send('you specify what should i send.')
       let memeber = message.mentions.members.first()
       if (!memeber) message.channel.send('you need add a mention to the command dummy.')
@@ -435,7 +494,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
     if (message.content.startsWith(prefix + 'Info')) {
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
       message.channel.send({embed: {
-        color: 35214,
+        color: getRandomHex(),
         author: {
           name: bot.user.username,
           icon_url: bot.user.avatarURL
@@ -677,6 +736,7 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         }
         message.channel.bulkDelete(messages).catch(error => console.log(error.stack))
       })
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}purge .${rb}`)
     }
     if (message.content.startsWith(prefix + 'skip')) {
       let player = message.guild.voiceConnection.player.dispatcher
@@ -840,7 +900,6 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
         message.channel.send('you dont have permisson to run this command.')
       }
     }
-
     if (message.content.startsWith(prefix + 'unmute')) {
       if (message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
         let member = message.mentions.members.first()
@@ -859,10 +918,9 @@ ${prefix}lizard - gives you a lizard pic.${rb}`)
       let args = message.content.split(' ').splice(1).join(' ')
       if (!args) message.channel.send(`you need to specify a txt after **${prefix}review**`)
       const id = bot.guilds.get('283893701023891466')
-      if (!id) return message.channel.send('couldnt find the dev server')
+      if (!id) message.channel.send('couldnt find the dev server')
       const channel = bot.channels.get('283906210049163265')
-      if (!channel) return message.channel.send('couldnt send the feedback')
-      bot.guilds.get('283893701023891466').channels.get('283906210049163265').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
+      bot.guilds.get(id).channels.get(channel).send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
       message.channel.send('FeedBack Successfully send.')
     }
@@ -1006,10 +1064,11 @@ ${cdb}`)
 
         let args = message.content.replace(prefix + 'announce ', '')
         var GuildIDS = bot.guilds.map(x => x.id)
+        var default_Channel = message.guild.channels.find('name', 'general')
         for (i = 0; i < GuildIDS.length; i++) {
           if (!array.includes(GuildIDS[i])) {
             if (!object.hasOwnProperty(GuildIDS[i])) {
-              bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
+              bot.channels.get(bot.guilds.get(GuildIDS[i]).default_Channel.id).send(args)
               bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
             } else {
               if (!array.includes(GuildIDS[i])) {
@@ -1037,7 +1096,7 @@ ${cdb}`)
   }
 })
 
-bot.login(process.env.token)
+bot.login(config.token)
 
 process.on('unhandledRejection', err => {
   console.error('Uncaught We had a promise error \n' + err.stack)
