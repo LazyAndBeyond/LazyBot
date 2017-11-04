@@ -233,7 +233,7 @@ bot.on('guildCreate', guild => {
   const rb = '```'
   bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb} [ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Joined: "${guild.name}" (id: "${guild.id}"). \nWith: "${guild.memberCount}" members!${rb}`)
   bot.user.setGame(prefix + 'help , in ' + bot.guilds.size + ' servers! With ' + bot.users.size + ' members!')
-    let muteRole = guild.roles.find(r => r.name === 'Muted')
+  let muteRole = guild.roles.find(r => r.name === 'Muted')
   if (!muteRole) {
     try {
       muteRole = guild.createRole({
@@ -289,9 +289,9 @@ bot.on('message', function (message) {
     }
     if (message.content.startsWith(prefix + 'ping')) {
       var before = Date.now()
-      message.channel.send('Pong!').then(function (msg) {
+      message.channel.send(':ping_pong: Pong!').then(function (msg) {
         var after = Date.now()
-        msg.edit('Pong! **' + (after - before) + '**ms')
+        msg.edit(':ping_pong: Pong! **' + (after - before) + '**ms')
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}ping .${rb}`)
       })
     }
@@ -349,8 +349,7 @@ ${prefix}nsfw <args> - sends a nsfw gif.
 ${prefix}wallpapers <args> - sends a wallpaper of what you asked for. 
 ${prefix}gifs <args> - sends a gif. 
 ${prefix}support - gives you the bot support server.
-${prefix}avatar <mention> - gives you someones avatar.
-${prefix}Info - send an embed with some bot info. ${rb}`)
+${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       message.channel.send("Check your DM's **" + message.author.username + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
@@ -411,25 +410,47 @@ ${prefix}Info - send an embed with some bot info. ${rb}`)
         }, 2000)
       }
     }
+    if (message.content.startsWith(prefix + 'restart')) {
+      if (message.author.id === config.owner_id || message.author.id === config.admins) {
+        message.channel.send('**Restarting...**')
+        setTimeout(function () {
+          bot.destroy()
+        }, 1000)
+        setTimeout(function () {
+          bot.login(config.token)
+        }, 2000)
+      }
+    }
     if (message.content.startsWith(prefix + 'nsfw')) {
       if (message.channel.nsfw) {
-       let args = message.content.split(' ').splice(1)
-       let Pornsearch = require('pornsearch').search(args);
- 
-       Pornsearch.gifs()
+        let args = message.content.split(' ').splice(1)
+        let Pornsearch = require('pornsearch')
+
+        Pornsearch.search(args).gifs()
        .then(gifs => message.channel.send(gifs[0].url))
-    bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}nsfw .${rb}`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}nsfw .${rb}`)
       } else {
         message.channel.send('this command only work on nsfw channels')
       }
     }
+    if (message.content.startsWith(prefix + 'talkback')) {
+      clbot.write(message.content, (response) => {
+            response.input = args.join(" ");
+            message.channel.startTyping();
+            setTimeout(() => {
+        console.log(response.output);
+        console.log(response.input);
+              message.channel.send(response.output).catch(console.error);
+              message.channel.stopTyping();
+            }, Math.random() * (1 - 3) + 1 * 1000);
+         });
+      }
     if (message.content.startsWith(prefix + 'wallpapers')) {
       let args = message.content.split(' ').splice(1)
       randomAnimeWallpapers(args)
       .then(images => {
-      message.channel.send(images[0].thumb)
-
-     })
+        message.channel.send(images[0].thumb)
+      })
     }
     if (message.content.startsWith(prefix + 'gifs')) {
       let args = message.content.split(' ').splice(1)
@@ -780,6 +801,7 @@ ${prefix}Info - send an embed with some bot info. ${rb}`)
     if (message.content.startsWith(prefix + 'stop')) {
       let player = message.guild.voiceConnection.player.dispatcher
       let chan = message.member.voiceChannel
+      if (!player || player.paused) return chan.leave()
       message.channel.send('Stopping music...')
       player.end()
       chan.leave()
@@ -919,8 +941,7 @@ ${prefix}Info - send an embed with some bot info. ${rb}`)
       if (!args) message.channel.send(`you need to specify a txt after **${prefix}review**`)
       const id = bot.guilds.get('283893701023891466')
       if (!id) message.channel.send('couldnt find the dev server')
-      const channel = bot.channels.get('283906210049163265')
-      bot.guilds.get(id).channels.get(channel).send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
       message.channel.send('FeedBack Successfully send.')
     }
@@ -1064,11 +1085,10 @@ ${cdb}`)
 
         let args = message.content.replace(prefix + 'announce ', '')
         var GuildIDS = bot.guilds.map(x => x.id)
-        var default_Channel = message.guild.channels.find('name', 'general')
         for (i = 0; i < GuildIDS.length; i++) {
           if (!array.includes(GuildIDS[i])) {
             if (!object.hasOwnProperty(GuildIDS[i])) {
-              bot.channels.get(bot.guilds.get(GuildIDS[i]).default_Channel.id).send(args)
+              bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
               bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
             } else {
               if (!array.includes(GuildIDS[i])) {
