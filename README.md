@@ -12,5 +12,3 @@ ytdl-core.
 else if you wana have Mayumi at your server : http://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=8
 
 
-
-WARNING (THIS IS AN OUTDATED VERSION, IT WILL BE UPDATED SOON!!)
