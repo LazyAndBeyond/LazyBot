@@ -1,11 +1,5 @@
-
+ 
 const Discord = require('discord.js')
-const started = Date()
-const time = new Date()
-const errorlog = require('./data/errors.json')
-const array = []
-const array1 = require('./data/disableS')
-const object = require('./data/default.json')
 try {
   var config = require('./config.json')
   console.log('Config file detected!')
@@ -21,14 +15,16 @@ const admins = config.admins
 const swearWords = ['fuck', 'shit', 'Shit ', 'SHIT', 'FUCK', 'dick', 'pussy', 'fuck off', 'fuck you', 'fucking', 'cunt', 'faggot', 'ass', 'asshole']
 const bot = new Discord.Client({autoReconnect: true})
 const notes = require('./data/notes.json')
-const os = require('os')
 const prefix = config.prefix
+const os = require('os')
 const rb = '```'
+const music = require('discord.js-music-v11');
 const sbl = require('./data/blservers.json')
 const ubl = require('./data/blusers.json')
 const fs = require('fs')
 const warns = require('./data/warns.json')
 const queues = {}
+const snekfetch = require("snekfetch")
 const ytdl = require('ytdl-core')
 const search = require('youtube-search')
 const ms = require('ms')
@@ -38,6 +34,15 @@ const randomAnimeWallpapers = require('random-anime-wallpapers')
 const http = require('http')
 const express = require('express')
 const app = express()
+const Cleverbot = require('cleverbot-node')
+const clbot = new Cleverbot()
+const started = Date()
+const time = new Date()
+const errorlog = require('./data/errors.json')
+const array1 = require('./data/disableS')
+const object = require('./data/default.json')
+const prefixes = JSON.parse(fs.readFileSync('./data/prefixes.json'))
+clbot.configure({botapi: 'CC43sDxdsPJDs4as2DVngVwWPEA'})
 const nekoclient = new neko.Client({
   key: 'dnZ4fFJbjtch56pNbfrZeSRfgWqdPDgf'
 })
@@ -61,7 +66,6 @@ var paused = {}
 function play (msg, queue, song) {
   try {
     if (!msg || !queue) return
-        // if (msg.guild.voiceConnection.channel.members.first() == undefined)
     if (song) {
       search(song, opts, function (err, results) {
         if (err) return msg.channel.send('Video not found please try to use a youtube link instead.')
@@ -100,8 +104,6 @@ function play (msg, queue, song) {
         queue.shift()
         play(msg, queue)
       })
-    } else {
-      msg.channel.send('No more music in queue! use ' + prefix + 'play to play music again.')
     }
   } catch (err) {
     console.log('WELL LADS LOOKS LIKE SOMETHING WENT WRONG!' + err.stack)
@@ -161,6 +163,10 @@ function isCommander (id) {
 
 function getRandomHex () {
   return '#' + Math.floor(Math.random() * 16777215).toString(16)
+}
+
+function getRandomInt () {
+  return Math.floor(Math.random() * 16777215).toString(10)
 }
 
 bot.on('ready', function () {
@@ -258,26 +264,30 @@ bot.on('guildCreate', guild => {
   })
 })
 app.get('/', (request, response) => {
-  console.log(Date.now() + ' Ping Received')
   response.sendStatus(200)
 })
 app.listen(process.env.PORT)
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`)
 }, 280000)
-bot.on('message', function (message) {
+bot.on('message', function async (message) {
   try {
     if (message.author.bot) return
     if (message.channel.type === 'dm') {
-      message.channel.send('please use commands in servers')
+      clbot.write(message.content, (response) => {
+        message.channel.startTyping()
+        setTimeout(() => {
+          message.channel.send(response.output).catch(console.error)
+          message.channel.stopTyping()
+        }, Math.random() * (1 - 3) + 1 * 1000)
+      })
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> \nUser:${message.author.username} (id:${message.author.id}) \n  Command: CleverBot .${rb}`)
       return
     }
     if (sbl.indexOf(message.guild.id) !== -1 && message.content.startsWith(prefix)) {
-      message.channel.send('This server is blacklisted f*cker!')
       return
     }
     if (ubl.indexOf(message.author.id) !== -1 && message.content.startsWith(prefix)) {
-      message.reply(' you are blacklisted and can not use the bot!')
       return
     }
     const GuildID = message.guild.id
@@ -297,85 +307,298 @@ bot.on('message', function (message) {
     }
 
     if (message.content.startsWith(prefix + 'help')) {
-      message.author.send(`${rb}
-${prefix}help - Shows this message.
-${prefix}announce <args> - announce a message to all servers (Owner Only).
-${prefix}ping - Ping/Pong with ms amount.
-${prefix}servers Shows amount of servers.
-${prefix}play <args> - Plays the song you requested.
-${prefix}volume <volume> - Change the volume.
-${prefix}queue - Check the list of songs that are queued.
-${prefix}np/nowplaying - Check the current song out.
-${prefix}skip - Skips the playing song.
-${prefix}pause - Pause the current song.
-${prefix}kick <mention> <reason> - kick a member from the server.
-${prefix}ban <mention> <reason> - ban a member from the server.
-${prefix}enable - enable resiving announcements (resiving announcements is seted to enable by default).
-${prefix}disable - disable resiving announcements.
-${prefix}swearEnable - enables swear auto detect system.
-${prefix}swearDisable - disables swear auto detect system.
-${prefix}mylevel - Shows you your current lvl and points (you can lvl up by using commands).
-${prefix}resetwarn <user> - Deletes a warning from a user.
-${prefix}checkwarn <user> - Lookup warning information on a user.
-${prefix}emojis - give you all comstume emojis in the server (only costume emojis).
-${prefix}review <args> - send a review to the bot dev server.
-${prefix}eval <code> - (Owner only).
-${prefix}clearqueue - Clears the list of queues.
-${prefix}say <args> - Admin only.
-${prefix}resume - Resumes paused song.
-${prefix}about - Info about the bot.
-${prefix}shutdown - Power off the bot (Owner only).
-${prefix}invite - Creates OAuth URL for bot.
-${prefix}userblacklist <add/remove> <user id> - Blacklists a user.
-${prefix}warn <user> <reason> - Warns a user for the thing they did wrong.
-${prefix}remindme <time> <args> - Reminds you of something in a certain time.
-${prefix}serverblacklist <add/remove> <server id> - Adds or removes servers from blacklist.
-${prefix}note <your_note> - Takes a note.
-${prefix}mynotes - Shows notes you have taken.
-${prefix}kill - the bot leaves your server (server owner only).
-${prefix}setName <name> - change the bot name (Owner only).
-${prefix}uptime - Shows bot uptime.
-${prefix}sys - Gets system information.
-${prefix}serverInfo - Gets the server info.${rb}`)
-      message.author.send(`${rb}
-${prefix}kiss <mention> - gives you a kiss gif.
-${prefix}hug <mention> - gives you a hug gif.
-${prefix}pat <mention> - gives you a pat gif.
-${prefix}neko - gives you a neko gif.
-${prefix}why - sends a question.
-${prefix}LewdNeko - gives you a LewdNeko pic.
-${prefix}lizard - gives you a lizard pic.
-${prefix}nsfw <args> - sends a nsfw gif. 
-${prefix}wallpapers <args> - sends a wallpaper of what you asked for. 
-${prefix}gifs <args> - sends a gif. 
-${prefix}support - gives you the bot support server.
-${prefix}avatar <mention> - gives you someones avatar.${rb}`)
-      message.channel.send("Check your DM's **" + message.author.username + '**')
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
+      const rbb = '`'
+const help = new Discord.RichEmbed()
+.setTitle(`Pick A Command Module From Mayumi's Help command`)
+.setColor(getRandomHex())
+.setThumbnail(bot.user.displayAvatarURL)
+.addField(`Music:`, `${rb}js\nMusic commands....\n${rb}`)
+.addField(`Moderation:`, `${rb}js\nAll the moderation commands of the bot.\n${rb}`)
+.addField(`Fun:`, `${rb}js\nAll the fun commands are listed in ther.\n${rb}`)
+.addField(`Owner/Admins:`, `${rb}js\nAll Owner/Admins of the bot commands are ther.\n${rb}`)
+.addField(`How to Use?`, `${rbb}${prefix}help ModuleName${rbb}`)
+.addField(`Support Server:`, `**https://discord.gg/fKBvnPq**`)
+.addField(`Invite URL:`, `**http://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=8**`)
+.addField(`Developer Notes:`, `Cleverbot system only works with DM's or with mentioning the bot with a message ex:(<@358198916539482112> Hi!)`)
+const embed = new Discord.RichEmbed()
+.addField(`Mayumi-San's Help Command page 1 :`, '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬')
+
+.setColor(getRandomHex())
+.setThumbnail(bot.user.displayAvatarURL)
+.addField(`Music Commands:`, `__**${prefix}help**__ - Shows this message.
+__**${prefix}play**__ <args> - Plays the song you requested.
+__**${prefix}volume**__ <volume> - Change the volume.
+__**${prefix}queue**__ - Check the list of songs that are queued.
+__**${prefix}np**__ - Check the current song out (nowplaying).
+__**${prefix}skip**__ - Skips the playing song.
+__**${prefix}pause**__ - Pause the current song.
+__**${prefix}clearqueue**__ - Clears the list of queues.
+__**${prefix}resume**__ - Resumes paused song.`)
+
+const embed1 = new Discord.RichEmbed()
+.setColor(getRandomHex())
+.addField(`Mayumi-San's Help Command page 2 :`, '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬')
+.addField(`Moderation Commands:`, `__**${prefix}kill**__ - the bot leaves your server (server owner only).
+__**${prefix}warn <user> <reason>**__ - Warns a user for the thing they did wrong.
+__**${prefix}resetwarn <user>**__ - Deletes a warning from a user.
+__**${prefix}checkwarn <user>**__ - Lookup warning information on a user.
+__**${prefix}kick <mention> <reason>**__ - kick a member from the server.
+__**${prefix}ban <mention> <reason>**__ - ban a member from the server.
+__**${prefix}purge <0/100> **__ - deletes messages (cant delete messages wich are more than 2 weeks old).
+__**${prefix}swearEnable**__ - enables swear auto detect system.
+__**${prefix}swearDisable**__ - disables swear auto detect system.
+__**${prefix}mute <mention> <time>**__ - mutes a member.
+__**${prefix}unmute <mention>**__ - unmutes a member (only if he is already muted).
+__**${prefix}review <args>**__ - send a review to the bot dev server.`)
+
+const embed2 = new Discord.RichEmbed()
+.setColor(getRandomHex())
+.addField(`Mayumi-San's Help Command page 3 :`, '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬')
+.addField(`Fun Commands:`, `__**${prefix}remindme <time> <args>**__ - Reminds you of something in a certain time.
+__**${prefix}note <your_note>**__- Takes a note.
+__**${prefix}about**__ - Info about the bot.
+__**${prefix}invite**__ - Creates OAuth URL for bot.
+__**${prefix}emojis**__ - give you all comstume emojis in the server (only costume emojis).
+__**${prefix}say <args>**__ - says what you told her to say.
+__**${prefix}mynotes**__ - Shows notes you have taken.
+__**${prefix}ping**__ - Ping/Pong with ms amount.
+__**${prefix}servers**__ Shows amount of servers.
+__**${prefix}uptime**__ - Shows bot uptime.
+__**${prefix}sys**__ - Gets system information.
+__**${prefix}serverInfo**__ - Gets the server info.
+__**${prefix}why**__ - sends a question.
+__**${prefix}support**__ - gives you the bot support server.
+__**${prefix}avatar <mention>**__ - gives you someones avatar.
+__**${prefix}DM <mention>**__ - DM a personne.
+__**${prefix}math <num1> <marks> <num2 - Math's something for you (SPACES ARE REQUIRED!!).
+__**${prefix}8ball <args>**__ - question - answer.`)
+.addField(`More Fun Commands:`, `__**${prefix}kiss <mention>**__ - gives you a kiss gif.
+__**${prefix}hug <mention>**__ - gives you a hug gif.
+__**${prefix}pat <mention>**__ - gives you a pat gif.
+__**${prefix}neko**__ - gives you a neko gif.
+__**${prefix}Cats**__ - Random Cats Pics.
+__**${prefix}LewdNeko**__ - gives you a LewdNeko pic.
+__**${prefix}lizard**__ - gives you a lizard pic.
+__**${prefix}wallpapers <args>**__ - sends a wallpaper of what you asked for. 
+__**${prefix}gifs <args>**__ - sends a gif. `)
+
+const embed3 = new Discord.RichEmbed()
+.setColor(getRandomHex())
+.addField(`Mayumi-San's Help Command page 4 :`, '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬')
+.addField(`Owner/Admins Commands:`, `__**${prefix}userblacklist**__ <add/remove> <user id> - Blacklists a user.
+__**${prefix}serverblacklist <add/remove> <server id>**__ - Adds or removes servers from blacklist.
+__**${prefix}shutdown**__ - Power off the bot (Owner only).
+__**${prefix}restart**__ - Restarts the bot
+__**${prefix}eval <code>**__ - (Owner only).
+__**${prefix}setName <name>**__ - change the bot name (Owner only).`)
+      const args = message.content.split(' ').splice(1)
+      if (!args[0]) return message.channel.send(help)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
+      if (args[0] === 'Music' || 'Music'.toLowerCase()) { 
+        message.author.send(embed)
+        message.channel.send(`**${message.author.username}** Check Your DM's :mailbox_with_mail: !`)
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help Music .${rb}`)
+      } else {
+        if (args[0] === 'Moderation' || 'Mod' || 'Moderation'.toLowerCase() || 'Mod'.toLowerCase()) {
+          message.author.send(embed1)
+          message.channel.send(`**${message.author.username}** Check Your DM's :mailbox_with_mail: !`)
+          bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help Moderation .${rb}`)
+        } else {
+          if (args[0] === 'Fun' || 'Fun'.toLowerCase) {
+            message.author.send(embed2)
+            message.channel.send(`**${message.author.username}** Check Your DM's :mailbox_with_mail: !`)
+            bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help Fun .${rb}`)
+          } else {
+            if (args[0] === 'Owner/Admins' || 'Owner' || 'Admins' || 'Owner'.toLowerCase() || 'Admins'.toLowerCase) {
+              message.author.send(embed3)
+              message.channel.send(`**${message.author.username}** Check Your DM's :mailbox_with_mail: !`)
+              bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help Owner/Admins .${rb}`)
+            }
+          }
+        }
+      }
+    }
+    if (message.content.startsWith(prefix + 'Cats' || prefix + 'Cats'.toLowerCase())) {
+      snekfetch.get("http://random.cat/meow")
+      .then((res) => {
+      let embed = new Discord.RichEmbed()
+      .setTitle(`Some Random Cats`)
+      .setImage(res.body.file)
+      .setTimestamp()
+      .setFooter('Requested At:',bot.user.displayAvatarURL)
+      message.channel.send(embed)
+      }
+     )
+    }
+    if (message.content.startsWith(prefix + 'giveaway')) {
+      const myArray = []
+      
+    }
+    if (message.content.startsWith(prefix + 'math')) {
+      let args = message.content.split(' ').splice(1)
+      let num1 = parseInt(args[0])
+      let num2 = parseInt(args[2])
+      if (args[1] === '+') {
+        var ans = num1 + num2
+        var embed = new Discord.RichEmbed()
+          .setColor(getRandomHex())
+          .setTitle(`I CAN USE MATH!!!`)
+          .setThumbnail(bot.user.diplayAvatarURL)
+          .addField(`Your Answer:`, `:mortar_board: ${rb}js\n${ans}\n${rb}  `)
+          .setFooter('Requested at: ', bot.user.displayAvatarURL)
+          .setTimestamp()
+          message.channel.send(embed);
+      } else {
+        if (args[1] === '-') {
+          var ans1 = num1 - num2
+          var embed1 = new Discord.RichEmbed()
+          .setColor(getRandomHex())
+          .setTitle(`I CAN USE MATH!!!`)
+          .setThumbnail(bot.user.diplayAvatarURL)
+          .addField(`Your Answer:`, `:mortar_board: ${rb}js\n${ans1}\n${rb}  `)
+          .setFooter('Requested at: ', bot.user.displayAvatarURL)
+          .setTimestamp()
+          message.channel.send(embed1);
+        } else {
+          if (args[1] === '/') {
+            var ans2 = num1 / num2
+            var embed2 = new Discord.RichEmbed()
+          .setColor(getRandomHex())
+          .setTitle(`I CAN USE MATH!!!`)
+          .setThumbnail(bot.user.diplayAvatarURL)
+          .addField(`Your Answer:`, `:mortar_board: ${rb}js\n${ans2}\n${rb}  `)
+          .setFooter('Requested at: ', bot.user.displayAvatarURL)
+          .setTimestamp()
+          message.channel.send(embed2);
+          } else {
+            if (args[1] === '*') {
+                          var ans3 = num1 * num2
+            var embed3 = new Discord.RichEmbed()
+          .setColor(getRandomHex())
+          .setTitle(`I CAN USE MATH!!!`)
+          .setThumbnail(bot.user.diplayAvatarURL)
+          .addField(`Your Answer:`, `:mortar_board: ${rb}js\n${ans3}\n${rb}  `)
+          .setFooter('Requested at: ', bot.user.displayAvatarURL)
+          .setTimestamp()
+          message.channel.send(embed3);
+            }
+          }
+      }
+    }
+                  bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}math .${rb}`)
+    }
+    if (message.content.startsWith(prefix + 'lockdown')) {
+if (!bot.lockit) bot.lockit = [];
+  let time = args.join(' ');
+  let validUnlocks = ['release', 'unlock'];
+  const embed = new Discord.RichEmbed()
+  .setColor(getRandomHex())
+  .setTimestamp()
+  .addField('Action:', 'Lockdown')
+  .addField('Channel:', message.channel)
+  .addField('Moderator:', `${message.author.username}#${message.author.discriminator}`)
+  .addField('Time:', `${ms(ms(time), { long:true })}`);
+  if (!time) return message.reply('You must set a duration for the lockdown in either hours, minutes or seconds');
+
+  if (validUnlocks.includes(time)) {
+    message.channel.overwritePermissions(message.guild.id, {
+      SEND_MESSAGES: null
+    }).then(() => {
+      message.channel.send('Lockdown lifted.');
+      clearTimeout(bot.lockit[message.channel.id]);
+      delete bot.lockit[message.channel.id];
+    }).catch(error => {
+      console.log(error);
+    });
+  } else {
+    message.channel.overwritePermissions(message.guild.id, {
+      SEND_MESSAGES: false
+    }).then(() => {
+      message.channel.send({ embed: embed }).then(() => {
+
+        bot.lockit[message.channel.id] = setTimeout(() => {
+          message.channel.overwritePermissions(message.guild.id, {
+            SEND_MESSAGES: null
+          }).then(message.channel.sendMessage('Lockdown lifted.')).catch(console.error);
+          delete bot.lockit[message.channel.id];
+        }, ms(time));
+
+      }).catch(error => {
+        console.log(error);
+      });
+    });
+  }
+            bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lockdown .${rb}`)
+}
+    if (message.content.startsWith(prefix + 'prefix')) {
+      let args = message.content.split(' ').splice(1)
+      let guildData = prefixes[message.guild.id]
+      if (!prefixes[message.guild.id]) {
+        prefixes[message.guild.id] = {
+          prefix: args[0],
+          guild_id: message.guild.id
+        }
+        fs.writeFile('./data/prefixes.json', JSON.stringify(prefixes), (err) => {
+      if (err) console.error(err)
+    })
+    }
     }
     if (message.content.startsWith(prefix + 'kiss')) {
       let user = message.mentions.users.first()
       if (!user) return message.channel.send('O_o you wanna kiss yourself??')
-      nekoclient.kiss().then((kiss) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n${kiss.url}`))
+      nekoclient.kiss().then((kiss) => message.channel.send(`**${user}** , **${message.author.username}** kissed you! \n`, {
+        embed: {
+          color: getRandomInt(),
+          image: {
+            url: kiss.url
+          }
+        }
 
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}kiss .${rb}`)
+      }).catch(e => console.warn('wew tf happened here ' + e)))
+
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}help .${rb}`)
     }
+
     if (message.content.startsWith(prefix + 'pat')) {
       let user = message.mentions.users.first()
       if (!user) return message.channel.send('O_o you wanna pat yourself??')
 
-      nekoclient.pat().then((pat) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${pat.url}`))
+      nekoclient.pat().then((pat) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n`, {
+        embed: {
+          color: getRandomInt(),
+          image: {
+            url: pat.url
+          }
+        }
+
+      }).catch(e => console.warn('wew tf happened here ' + e)))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pat .${rb}`)
     }
     if (message.content.startsWith(prefix + 'hug')) {
       let user = message.mentions.users.first()
       if (!user) return message.channel.send('O_o you wanna hug yourself??')
 
-      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n${hug.url}`))
+      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** patted you! \n`, {
+        embed: {
+          color: getRandomInt(),
+          image: {
+            url: hug.url
+          }
+        }
+
+      }).catch(e => console.warn('wew tf happened here ' + e)))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}hug .${rb}`)
     }
     if (message.content.startsWith(prefix + 'neko')) {
-      nekoclient.neko().then((neko) => message.channel.send(neko.neko))
+      nekoclient.neko().then((neko) => message.channel.send({
+        embed: {
+          color: getRandomInt(),
+          image: {
+            url: neko.neko
+          }
+        }
+
+      }).catch(e => console.warn('wew tf happened here ' + e)))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}neko .${rb}`)
     }
     if (message.content.startsWith(prefix + 'why')) {
@@ -384,78 +607,115 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
     if (message.content.startsWith(prefix + 'lewdNeko')) {
       if (message.channel.nsfw) {
-        nekoclient.LewdNeko().then((LewdNeko) => message.channel.send(LewdNeko.neko))
+        nekoclient.LewdNeko().then((LewdNeko) => message.channel.send({
+          embed: {
+            color: getRandomInt(),
+            image: {
+              url: LewdNeko.neko
+            }
+          }
+
+        }).catch(e => console.warn('wew tf happened here ' + e)))
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lewdNeko .${rb}`)
       } else {
         message.channel.send('this command only work on nsfw channels')
       }
     }
     if (message.content.startsWith(prefix + 'lizard')) {
-      nekoclient.lizard().then((lizard) => message.channel.send(lizard.url))
+      nekoclient.lizard().then((lizard) => message.channel.send({
+        embed: {
+          color: getRandomInt(),
+          image: {
+            url: lizard.url
+          }
+        }
+
+      }).catch(e => console.warn('wew tf happened here ' + e)))
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}lizard .${rb}`)
     }
     if (message.content.startsWith(prefix + 'support')) {
-      message.channel.send("**Hello**,ther's my development support server https://discord.gg/RnvdQXg ")
+      message.channel.send({
+        embed: {
+          author: {
+            name: message.author.username,
+            icon_url: message.author.avatarURL
+          },
+          title: `Invite Link`,
+          description: `[Invite me!](http://discordapp.com/oauth2/authorize?client_id=${config.client_id}&scope=bot&permissions=8)\n[Support Server!](https://discord.gg/fKBvnPq)`,
+          color: getRandomInt,
+          timestamp: new Date(),
+          footer: {
+            icon_url: bot.user.displayAvatarURL,
+            text: 'Requested at:'
+          }}})
+
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}support .${rb}`)
     }
-    if (message.content.startsWith(prefix + 'shutdown')) {
+    if (message.content.startsWith(prefix + 'restart')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
-        message.channel.send('Shutdown has been initiated.\n**Shutting down...**')
-        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Exitting Discord......${rb}`)
+        message.channel.send('Restart has been initiated.\n**Restaring...**')
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Restarting......${rb}`)
         setTimeout(function () {
           bot.destroy()
         }, 1000)
         setTimeout(function () {
           process.exit()
         }, 2000)
-      }
-    }
-    if (message.content.startsWith(prefix + 'restart')) {
-      if (message.author.id === config.owner_id || message.author.id === config.admins) {
-        message.channel.send('**Restarting...**')
-        setTimeout(function () {
-          bot.destroy()
-        }, 1000)
-        setTimeout(function () {
-          bot.login(config.token)
-        }, 2000)
-      }
-    }
-    if (message.content.startsWith(prefix + 'nsfw')) {
-      if (message.channel.nsfw) {
-        let args = message.content.split(' ').splice(1)
-        let Pornsearch = require('pornsearch')
-
-        Pornsearch.search(args).gifs()
-       .then(gifs => message.channel.send(gifs[0].url))
-        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}nsfw .${rb}`)
       } else {
-        message.channel.send('this command only work on nsfw channels')
+        message.channel.send('you dont have permisson to run this command')
       }
     }
-    if (message.content.startsWith(prefix + 'talkback')) {
-      clbot.write(message.content, (response) => {
-            response.input = args.join(" ");
-            message.channel.startTyping();
-            setTimeout(() => {
-        console.log(response.output);
-        console.log(response.input);
-              message.channel.send(response.output).catch(console.error);
-              message.channel.stopTyping();
-            }, Math.random() * (1 - 3) + 1 * 1000);
-         });
+    if (message.content.startsWith(prefix + '8ball')) {
+      var answer = Math.floor(Math.random() * 2) + 1
+      if (answer === 1) {
+        message.channel.send(':white_check_mark: **Yes!**')
+      } else {
+        message.channel.send(':x: **No!**')
       }
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}8ball .${rb}`)
+    }
+    if (message.content.startsWith(`<@${bot.user.id}>`)) {
+      clbot.write(message.content, (response) => {
+        message.channel.startTyping()
+        setTimeout(() => {
+          message.channel.send(response.output).catch(console.error)
+          message.channel.stopTyping()
+        }, Math.random() * (1 - 3) + 1 * 1000)
+      })
+    }
     if (message.content.startsWith(prefix + 'wallpapers')) {
       let args = message.content.split(' ').splice(1)
       randomAnimeWallpapers(args)
       .then(images => {
-        message.channel.send(images[0].thumb)
+        let img = images[Math.floor(Math.random() * images.length)]
+        if (!img) return message.channel.send('no result fund for **' + args + '**')
+        message.channel.send({
+          embed: {
+            color: getRandomInt(),
+            image: {
+              url: img.full
+            }
+          }
+
+        }).catch(e => console.warn('wew tf happened here ' + e))
       })
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}wallpapers .${rb}`)
     }
     if (message.content.startsWith(prefix + 'gifs')) {
       let args = message.content.split(' ').splice(1)
+
       giphy({apiKey: 'P66vSybfG3Deu1DBHYc8vNnRwKHuV3d5', query: args})
-  .then(url => message.channel.send(url))
+  .then(url => {
+    message.channel.send({
+      embed: {
+        color: getRandomInt(),
+        image: {
+          url: url
+        }
+      }
+
+    }).catch(e => console.warn('wew tf happened here ' + e))
+  })
     }
     if (message.content.startsWith(prefix + 'setName')) {
       if (message.author.id === config.owner_id) {
@@ -473,27 +733,35 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       let user = message.mentions.users.first()
       if (!user) message.channel.send('you need to mention a user')
       let avatar = user.displayAvatarURL
-      message.channel.send({files: [
-        {
-          attachment: avatar,
-          name: 'avatar.png'
-        }
-      ]})
+      let embed = new Discord.RichEmbed()
+
+      .setAuthor('Avatar requested by: ' + message.author.username)
+      .setColor(getRandomHex())
+      .setImage(avatar)
+      .setFooter('Requested at: ', bot.user.displayAvatarURL)
+      .setTimestamp()
+
+      message.channel.send({embed: embed})
+
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}avatar .${rb}`)
     }
     if (message.content.startsWith(prefix + 'userInfo')) {
       let user = message.mentions.users.first()
       if (!user) return message.channel.send('you need to mention a user!')
-
       let embed = new Discord.RichEmbed()
+
       .setAuthor(message.author.username + ' requested user info of ' + user.username)
-      .setDescription("This is the user's info!")
+      .setDescription(`**${user.username}**'s Profile Info's`)
       .setColor(getRandomHex())
-      .addField('Avatar', user.displayAvatarURL)
-      .addField('Statu:', message.member.presence.status)
-      .addField('Full Username:', user.username)
-      .addField('ID:', user.id)
-      .addField('Created At:', user.createdAt)
+      .setThumbnail(user.displayAvatarURL)
+      .addField('Statu:', `**${message.member.presence.status}**`)
+      .addField('Game', `**${message.author.presence.game.name}**`)
+      .addField('Full Username:', `**${user.username}**`)
+      .addField('ID:', `**${user.id}**`)
+      .addField('Created At:',  `**${user.createdAt}**`)
+      .addField('lastMessage Content:', `**${user.lastMessageID.content}**`)
+      .setFooter('Requested at: ', bot.user.displayAvatarURL)
+      .setTimestamp()
 
       message.channel.send({embed: embed})
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}userinfo .${rb}`)
@@ -504,45 +772,27 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
     if (message.content.startsWith(prefix + 'DM')) {
       let args = message.content.split(' ').splice(1)
-      if (!args) message.channel.send('you specify what should i send.')
+      if (!args) return message.channel.send('you specify what should i send.')
       let memeber = message.mentions.members.first()
-      if (!memeber) message.channel.send('you need add a mention to the command dummy.')
+      if (!memeber) return message.channel.send('you need add a mention to the command dummy.')
       let args1 = args.slice(1).join(' ')
-      bot.users.find('id', message.mentions.members.first().id).send(`**${message.author.username}** sended you a DM: \n${args1}`)
+      if (!args1) return message.channel.send('You need to add something to send')
+      const embed = new Discord.RichEmbed()
+      .setAuthor(message.author.username + 'sended you a DM!')
+      .setDescription('DM been sent to you!')
+      .setColor(getRandomHex())
+      .setThumbnail(message.author.displayAvatarURL)
+      .setFooter('DM been sent at: ', bot.user.displayAvatarURL)
+      .setTimestamp()
+      .addField('Content:', args1)
+
+      bot.users.find('id', message.mentions.members.first().id).send({embed: embed})
+
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}DM .${rb}`)
       message.channel.send('DM Successfuly sent!')
+      message.delete()
     }
-    if (message.content.startsWith(prefix + 'Info')) {
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}Info .${rb}`)
-      message.channel.send({embed: {
-        color: getRandomHex(),
-        author: {
-          name: bot.user.username,
-          icon_url: bot.user.avatarURL
-        },
-        title: 'Info',
-        description: 'This is an embed of Mayumi-San infos.',
-        fields: [{
-          name: 'Support commands',
-          value: 'For support do $help or $support'
-        },
-        {
-          name: 'Invite Mayumi-San to your server.',
-          value: 'To invite Mayumi-San to your server click >>>>> [here](http://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=8)'
-        },
-        {
-          name: 'Bot Owner',
-          value: 'The owner of Mayumi-San is AyoubMadrid feel free to join the development server by using $support.'
-        }
-        ],
-        timestamp: new Date(),
-        footer: {
-          icon_url: bot.user.avatarURL,
-          text: ''
-        }
-      }
-      })
-    }
+
     if (message.content.startsWith(prefix + 'emojis')) {
       let emojiList = message.guild.emojis.map(e => e.toString()).join(' ')
       if (!emojiList) return message.channel.send('you have no costume emojis in your guild!')
@@ -555,21 +805,23 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}uptime .${rb}`)
     }
     if (message.content.startsWith(prefix + 'play')) {
-      if (!message.guild.voiceConnection) {
-        if (!message.member.voiceChannel) return message.channel.send('You need to be in a voice channel')
-        var chan = message.member.voiceChannel
-        chan.join()
-      }
-      let suffix = message.content.split(' ').slice(1).join(' ')
-      if (!suffix) return message.channel.send('You need to specify a song link or a song name!')
-
-      play(message, getQueue(message.guild.id), suffix)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}play .${rb}`)
     }
     if (message.content.startsWith(prefix + 'sys')) {
-      message.channel.send('```' + `js\nSystem info: ${process.platform}-${process.arch} with ${process.release.name} version ${process.version.slice(1)}\nProcess info: PID ${process.pid} at ${process.cwd()}\nProcess memory usage: ${Math.ceil(process.memoryUsage().heapTotal / 1000000)} MB\nSystem memory usage: ${Math.ceil((os.totalmem() - os.freemem()) / 1000000)} of ${Math.ceil(os.totalmem() / 1000000)} Bot info: ID ${bot.user.id}#${bot.user.discriminator} \nName: ${bot.user.username}  \nPrefixs: ${'$'} \nCharacterLimit: ${2000}  \nServers: ${bot.guilds.size} \nChannels: ${bot.channels.size} \nUsers: ${bot.users.size} \nAdmins: ${config.admins} ` + '```')
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}sys .${rb}`)
+      let embed = new Discord.RichEmbed()
+      .setColor(getRandomHex())
+      .setThumbnail(bot.user.displayAvatarURL)
+      .setAuthor(bot.user.username + ' System Information!')
+      .addField('Sytem Info:', `${rb}js\n${process.platform}-${process.arch} with ${process.release.name} version ${process.version.slice(1)}\n${rb}`)
+      .addField('Process Info:', `${rb}js\nPID ${process.pid} at ${process.cwd()}\n${rb}`)
+      .addField('Process memory usage:', `${rb}js\n${Math.ceil(process.memoryUsage().heapTotal / 1000000)} MB\n${rb}`)
+      .addField('System memory usage:', `${rb}js\n${Math.ceil((os.totalmem() - os.freemem()) / 1000000)} of ${Math.ceil(os.totalmem() / 1000000)} MB\n${rb}`)
+      .addField('Bot Info:', `${rb}js\nFull Name: ${bot.user.username}\nID: ${bot.user.id}\nCharacterLimit: ${2000}\nServers: ${bot.guilds.size}\nChannels: ${bot.channels.size}\nUsers: ${bot.users.size}${rb}`)
+      .addField('Owner/Admins:', `${rb}js\nOwner_ID: ${config.owner_id}\nAdmins_ID: ${config.admins}${rb}`)
+
+      message.channel.send(embed)
     }
+
     if (message.content.startsWith(prefix + 'serverblacklist')) {
       if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
         let c = message.content.split(' ').splice(1).join(' ')
@@ -670,18 +922,8 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       }
     }
 
-    if (message.content.startsWith(prefix + 'clear')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1 || message.member.permissions.has('ADMINISTRATOR')) {
-        let queue = getQueue(message.guild.id)
-        if (queue.length === 0) return message.channel.send(`No music in queue`)
-        for (var i = queue.length - 1; i >= 0; i--) {
-          queue.splice(i, 1)
-        }
-        message.channel.send(`Cleared the queue`)
-        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}clear .${rb}`)
-      } else {
-        message.channel.send('Only the admins can do this command')
-      }
+    if (message.content.startsWith(prefix + 'clearqueue')) {
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}clearqueue .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'checkwarn')) {
@@ -691,7 +933,6 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
         let list = Object.keys(warns)
         let found = ''
         let foundCounter = 0
-        let warnCase
                 // looking for the case id
         for (let i = 0; i < list.length; i++) {
           if (warns[list[i]].user.id === user.id) {
@@ -706,34 +947,6 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
         message.channel.send('Only the admins can do this command')
       }
     }
-    let points = JSON.parse(fs.readFileSync('./data/points.json'))
-
-    if (!message.content.startsWith(prefix)) return
-    if (message.author.bot) return
-
-    if (!points[message.author.id]) {
-      points[message.author.id] = {
-        points: 0,
-        level: 0
-      }
-    }
-    let userData = points[message.author.id]
-    userData.points++
-
-    let curLevel = Math.floor(0.1 * Math.sqrt(userData.points))
-    if (curLevel > userData.level) {
-        // Level up!
-      userData.level = curLevel
-      message.reply(`You"ve leveled up to level **${curLevel}**! Ain"t that dandy?`)
-    }
-
-    if (message.content.startsWith(prefix + 'mylevel')) {
-      message.reply(`You are currently level **${userData.level}**, with **${userData.points}** points.`)
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}mylevel .${rb}`)
-    }
-    fs.writeFile('./data/points.json', JSON.stringify(points), (err) => {
-      if (err) console.error(err)
-    })
     if (message.content.startsWith(prefix + 'setdefault')) {
       if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1 || message.member.permissions.has('ADMINISTRATOR')) {
         object[message.guild.id] = message.channel.id
@@ -741,29 +954,32 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
         object[message.guild.id] = message.channel.id
         fs.writeFile('./data/default.json', JSON.stringify(object), function (err) { if (err) { return console.log(err) } })
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}setdefault .${rb}`)
+      } else {
+        message.channel.send('You dont have permisson to run this command.')
       }
     }
     if (message.content.startsWith(prefix + 'purge')) {
-      const user = message.mentions.users.first()
-      const amount = parseInt(message.content.split(' ')[1]) ? parseInt(message.content.split(' ')[1]) : parseInt(message.content.split(' ')[2])
-      if (!amount) return message.reply('Must specify an amount to delete!')
-      if (!amount && !user) return message.reply('Must specify a user and amount, or just an amount, of messages to purge!')
-      message.channel.fetchMessages({
-        limit: amount
-      }).then((messages) => {
-        if (user) {
-          const filterBy = user ? user.id : bot.user.id
-          messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount)
-        }
-        message.channel.bulkDelete(messages).catch(error => console.log(error.stack))
-      })
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}purge .${rb}`)
+      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1 || message.member.permissions.has('ADMINISTRATOR')) {
+        const user = message.mentions.users.first()
+        const amount = parseInt(message.content.split(' ')[1]) ? parseInt(message.content.split(' ')[1]) : parseInt(message.content.split(' ')[2])
+        if (!amount) return message.reply('Must specify an amount to delete!')
+        if (!amount && !user) return message.reply('Must specify a user and amount, or just an amount, of messages to purge!')
+        message.channel.fetchMessages({
+          limit: amount
+        }).then((messages) => {
+          if (user) {
+            const filterBy = user ? user.id : bot.user.id
+            messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount)
+          }
+          message.channel.bulkDelete(messages).catch(error => message.channel.send(error))
+        })
+        message.channel.send('Seccessfully deleted **' + amount + '** messages!')
+        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}purge .${rb}`)
+      } else {
+        message.channel.send('You dont have permisson to run this command.')
+      }
     }
     if (message.content.startsWith(prefix + 'skip')) {
-      let player = message.guild.voiceConnection.player.dispatcher
-      if (!player || player.paused) return message.channel.send('Bot is not playing!')
-      message.channel.send('Skipping song...')
-      player.end()
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}skip .${rb}`)
     }
 
@@ -791,21 +1007,11 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'pause')) {
-      let player = message.guild.voiceConnection.player.dispatcher
-      if (!player || player.paused) return message.channel.send('Bot is not playing')
-      player.pause()
-      message.channel.send('Pausing music...')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}pause .${rb}`)
     }
 
-    if (message.content.startsWith(prefix + 'stop')) {
-      let player = message.guild.voiceConnection.player.dispatcher
-      let chan = message.member.voiceChannel
-      if (!player || player.paused) return chan.leave()
-      message.channel.send('Stopping music...')
-      player.end()
-      chan.leave()
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}stop .${rb}`)
+    if (message.content.startsWith(prefix + 'leave')) {
+      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}leave .${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'warn')) {
@@ -863,8 +1069,27 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       }
     }
     if (message.content.startsWith(prefix + 'serverInfo')) {
-      message.channel.send(`Region: **${message.guild.region}**\nTotal Users: **${message.guild.memberCount}**\nOwner: **${message.guild.owner}**\nChannels: **${message.guild.channels.size}**\nRoles: **${message.guild.roles.size}**\nVerification Level: **${message.guild.verificationLevel}**\nID: **${message.guild.id}**`)
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}serverInfo .${rb}`)
+      let rb = '`'
+      let default_Channel = message.guild.channels.find('name', 'general')
+      let embed = new Discord.RichEmbed()
+
+      .setAuthor(`${message.guild.name}'s Infos:`)
+      .setColor(getRandomHex())
+      .setThumbnail(message.guild.iconURL)
+      .addField(`Guild Name:`, `**${message.guild.name}**`)
+      .addField(`Guild ID:`, `**${message.guild.id}**`)
+      .addField(`Owner:`, `${message.guild.owner}`)
+      .addField(`Verification Level:`, `**${message.guild.verificationLevel}**`)
+      .addField(`Region:`, `**${message.guild.region}**`)
+      .addField(`Large guild?:`, `**${message.guild.large}**`)
+      .addField(`Total Users:`, `**${message.guild.memberCount}** Users!!`)
+      .addField(`Channels:`, `**${message.guild.channels.size}** Channels!!`)
+      .addField(`AFK Channel (if setted):`, `${message.guild.afkChannel}`)
+      .addField(`Default Channel:`, `**${default_Channel}** (not going to work if you deleted your default channel)`)
+      .addField(`Roles:`, `**${message.guild.roles.size}** Roles!!`)
+      .addField(`Created At:`, `**${message.guild.createdAt}**`)
+
+      message.channel.send(embed)
     }
     if (message.content.startsWith(prefix + 'remindme')) {
       let args = message.content.split(' ').slice(1)
@@ -874,10 +1099,17 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       let args1 = args.slice(1).join(' ')
       message.channel.send('Got it :ok_hand: , gonna remind in **' + time1 + '**')
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}remindme .${rb}`)
-      console.log(args)
+
+      let embed = new Discord.RichEmbed()
+      .setColor(getRandomHex())
+      .setAuthor(message.author.username)
+      .setThumbnail(message.author.displayAvatarURL)
+      .addField('Times up, its been **' + time1 + '** thers your reminder:', args1)
+      .setFooter('Requested at:', bot.user.displayAvatarURL)
+      .setTimestamp()
 
       setTimeout(function () {
-        message.author.send('You have requested me to remind you with:** ' + args1 + ' **in **' + time1 + '**')
+        message.author.send({embed: embed})
       }, ms(time1))
     }
 
@@ -938,23 +1170,19 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
     if (message.content.startsWith(prefix + 'review')) {
       let args = message.content.split(' ').splice(1).join(' ')
-      if (!args) message.channel.send(`you need to specify a txt after **${prefix}review**`)
+      if (!args) return message.channel.send(`you need to specify a txt after **${prefix}review**`)
       const id = bot.guilds.get('283893701023891466')
-      if (!id) message.channel.send('couldnt find the dev server')
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send('FeedBack sent by: **' + message.author.username + '** ' + args + ' at ' + '**[ ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds() + ' ]** ' + '**[' + time.getDate() + '/' + time.getMonth() + '/' + time.getFullYear() + ']**')
+      if (!id) return message.channel.send('couldnt find the dev server')
+      let embed = new Discord.RichEmbed()
+      .setAuthor('Feedback')
+      .setColor(getRandomHex())
+      .addField('Feedback sent by: **' + message.author.username + '**', args)
+      .setFooter('Feedback been sent at: ', bot.user.displayAvatarURL)
+      .setTimestamp()
+
+      bot.guilds.get('283893701023891466').channels.get('358202949844992004').send({embed: embed})
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}review .${rb}`)
-      message.channel.send('FeedBack Successfully send.')
-    }
-    if (message.content.startsWith(prefix + 'disable')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
-        array.push(message.guild.id)
-        message.channel.send('Disabled.')
-        array.splice(array.indexOf(message.guild.id))
-        fs.writeFile('./data/disable.json', JSON.stringify(array), function (err) { if (err) { return console.log(err) } })
-        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}enable .${rb}`)
-      } else {
-        message.channel.send('you dont have permisson to use this command.')
-      }
+      message.channel.send('FeedBack Successfully sent!')
     }
     if (message.content.startsWith(prefix + 'swearEnable')) {
       if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
@@ -982,18 +1210,6 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
       }
     }
 
-    if (message.content.startsWith(prefix + 'enable')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR')) {
-        var index = array.indexOf(message.guild.id)
-        array.splice(index, 1)
-        message.channel.send('Enabled.')
-        array.push(message.guild.id)
-        fs.writeFile('./data/disable.json', JSON.stringify(array), function (err) { if (err) { return console.log(err) } })
-        bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}disable .${rb}`)
-      } else {
-        message.channel.send('you dont have permisson to use this command.')
-      }
-    }
     if (message.content.startsWith(prefix + 'eval')) {
       if (isCommander(message.author.id)) {
         try {
@@ -1010,21 +1226,7 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'volume')) {
-      let suffix = message.content.split(' ')[1]
-      var player = message.guild.voiceConnection.player.dispatcher
-      if (!player || player.paused) return message.channel.send('No music m8, queue something with `' + prefix + 'play`')
-      if (!suffix) {
-        message.channel.send(`The current volume is ${(player.volume * 100)}`)
-      } else if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
-        let volumeBefore = player.volume
-        let volume = parseInt(suffix)
-        if (volume > 100) return message.channel.send("The music can't be higher then 100")
-        player.setVolume((volume / 100))
-        message.channel.send(`Volume changed from ${(volumeBefore * 100)} to ${volume}`)
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}volume .${rb}`)
-      } else {
-        message.channel.send('Only admins can change the volume!')
-      }
     }
     if (message.content.startsWith(prefix + 'kill')) {
       if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id) {
@@ -1035,18 +1237,7 @@ ${prefix}avatar <mention> - gives you someones avatar.${rb}`)
     }
 
     if (message.content.startsWith(prefix + 'resume')) {
-      if (message.guild.owner.id === message.author.id || message.author.id === config.owner_id || message.member.permissions.has('ADMINISTRATOR') || config.admins.indexOf(message.author.id) !== -1) {
-        let player = message.guild.voiceConnection.player.dispatcher
-        if (!player) return message.channel.send('No music is playing at this time.')
-        if (player.playing) return message.channel.send('The music is already playing')
-        var queue = getQueue(message.guild.id)
-        bot.user.setGame(queue[0].title)
-        player.resume()
-        message.channel.send('Resuming music...')
         bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}resume .${rb}`)
-      } else {
-        message.channel.send('Only admins can do this command')
-      }
     }
 
     if (message.content.startsWith(prefix + 'invite')) {
@@ -1062,45 +1253,8 @@ ${cdb}`)
       message.channel.send(msg)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}about .${rb}`)
     }
-
-    if (message.content.startsWith(prefix + 'np') || message.content.startsWith(prefix + 'nowplaying')) {
-      let queue = getQueue(message.guild.id)
-      if (queue.length === 0) return message.channel.send(message, 'No music in queue')
-      message.channel.send(`${rb}xl\nCurrently playing: ${queue[0].title} | by ${queue[0].requested}${rb}`)
-      bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}np .${rb}`)
-    }
     if (message.content.startsWith(prefix + 'queue')) {
-      let queue = getQueue(message.guild.id)
-      if (queue.length === 0) return message.channel.send('No music in queue')
-      let text = ''
-      for (let i = 0; i < queue.length; i++) {
-        text += `${(i + 1)}. ${queue[i].title} | requested by ${queue[i].requested}\n`
-      };
-      message.channel.send(`${rb}xl\n${text}${rb}`)
       bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}queue .${rb}`)
-    }
-    if (message.content.startsWith(prefix + 'announce ', '')) {
-      if (message.author.id === config.owner_id || config.admins.indexOf(message.author.id) !== -1) {
-        console.log(object)
-
-        let args = message.content.replace(prefix + 'announce ', '')
-        var GuildIDS = bot.guilds.map(x => x.id)
-        for (i = 0; i < GuildIDS.length; i++) {
-          if (!array.includes(GuildIDS[i])) {
-            if (!object.hasOwnProperty(GuildIDS[i])) {
-              bot.channels.get(bot.guilds.get(GuildIDS[i]).defaultChannel.id).send(args)
-              bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
-            } else {
-              if (!array.includes(GuildIDS[i])) {
-                bot.channels.get(object[GuildIDS[i]]).send(args)
-                bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Command Successful --> server: \n${message.guild.name} (id:${message.guild.id}) \nUser:${message.author.username} \n Command: ${prefix}announce .${rb}`)
-              }
-            }
-          }
-        }
-      } else {
-        message.channel.send('Only Owner can use this command.')
-      }
     }
   } catch (err) {
     bot.guilds.get('283893701023891466').channels.get('358200987527413760').send(`${rb}[ ${time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()} ] <---> Bot CRASHED!! <---> Error: \n${err} ${rb}`)
@@ -1115,6 +1269,14 @@ ${cdb}`)
     })
   }
 })
+
+music(bot, {
+	prefix: '$',       // Prefix of '-'.
+	global: true,     // Server-specific queues.
+	maxQueueSize: 20,  // Maximum queue size of 10.
+	clearInvoker: false, // If permissions applicable, allow the bot to delete the messages that invoke it (start with prefix)
+    channel: 'Music1'   // Name of voice channel to join. If omitted, will instead join user's voice channel.
+});
 
 bot.login(config.token)
 

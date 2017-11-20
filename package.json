@@ -4,14 +4,18 @@
   "description": "mayumi-san is a costume commands discord bot made of node.js",
   "main": "bot.js",
   "dependencies": {
+    "Set": "^0.4.1",
+    "cleverbot-node": "^0.3.11",
     "discord.js": "^11.2.1",
+    "discord.js-music-v11": "^1.3.4",
     "embed-creator": "^1.1.4",
     "express": "^4.16.1",
     "http": "0.0.0",
     "ms": "^2.0.0",
-    "neko.js": "^1.5.1",
+    "neko.js": "^1.5.0",
     "opus": "^0.0.0",
     "opusscript": "0.0.3",
+    "quick-giphy": "^1.0.2",
     "random-anime-wallpapers": "^1.1.0",
     "script": "^0.1.4",
     "youtube-search": "^1.0.10",
@@ -19,7 +23,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
   },
   "engines": {
     "node": "8.4.0"
