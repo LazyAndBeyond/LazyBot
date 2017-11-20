@@ -1,4 +1,4 @@
-Mayumi-San is bot built of discord.js with music feature,moderation commands,fun commands.
+Mayumi-San is a discordbot built of discord.js with music feature,moderation commands,fun commands, clever bot.
 requirement to run Mayumi-san by yourself:
 discord.js.
 embed-creator.
@@ -10,5 +10,3 @@ script.
 youtube-search.
 ytdl-core.
 else if you wana have Mayumi at your server : http://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=8
-
-
