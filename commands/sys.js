@@ -19,8 +19,8 @@ module.exports = {
 message.channel.send(`= STATISTICS =
 • Full Name      ::   ${bot.user.username}
 • ID             ::   ${bot.user.id}
-• Owner          ::   ${bot.users.get(bot.config.owner_id).username}
-• Admin          ::   ${bot.users.get(bot.config.admins).username}
+• Owner          ::   @AyoußMadrid#7940
+• Admin          ::   @LoseJoe#5572
 • Servers        ::   ${bot.guilds.size}
 • Channels       ::   ${bot.channels.size}
 • Users          ::   ${bot.users.size}
