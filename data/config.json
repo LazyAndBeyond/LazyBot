@@ -1,7 +1,5 @@
 {
   "token": "TOKEN",
-  "prefix": "b$",
   "owner_id": "YOUR ID",
-  "youtube_api_key": "YOUTUBE API KEY V3",
   "admins": ["ADMIN ID"]
 }
