@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 2,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Display your permission level.",
   execute(message, args, level) {
   const friendly = message.client.settings.permLevels.find(l => l.level === level).name

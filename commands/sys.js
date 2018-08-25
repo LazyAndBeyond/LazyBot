@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "The informations about the bot usage and os.",
     execute(message, args, level) {
   const { version } = require('discord.js')
@@ -21,16 +21,13 @@ message.channel.send(`= STATISTICS =
 • ID             ::   ${bot.user.id}
 • Owner          ::   @AyoußMadrid#7940
 • Admin          ::   @LoseJoe#5572
-• Servers        ::   ${bot.guilds.size}
-• Channels       ::   ${bot.channels.size}
-• Users          ::   ${bot.users.size}
+• Users          ::   ${bot.users.size.toLocaleString()}
+• Servers        ::   ${bot.guilds.size.toLocaleString()}
+• Channels       ::   ${bot.channels.size.toLocaleString()}
 • CharacterLimit ::   ${2000}
 • System Info    ::   ${process.platform}-${process.arch}
 • Memory Usage   ::   ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB
 • Uptime         ::   ${duration}
-• Users          ::   ${bot.users.size.toLocaleString()}
-• Servers        ::   ${bot.guilds.size.toLocaleString()}
-• Channels       ::   ${bot.channels.size.toLocaleString()}
 • Discord.js     ::   v${version}
 • Node           ::   ${process.version}`, {code: 'autohotkey'})
     }

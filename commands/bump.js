@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Bumps your server infos to my server so you get more members!",
   async execute(message, args, level) {
   if (!message.guild) return

@@ -19,10 +19,10 @@ module.exports = {
           const embed = new Discord.RichEmbed()
             .setTitle(`Some random cute cats`)
             .setColor('RANDOM')
-            .setImage(res.headers.original_image)
+            .setImage(res.url)
             .setTimestamp()
             .setFooter('Requested At:', bot.user.displayAvatarURL)
           message.channel.send(embed)
-        })
+        }).catch(e => console.warn('wew tf happened here ' + e))
     }
 }

@@ -12,6 +12,11 @@ module.exports = {
     "description": "Bans a member.",
   execute(message, args, level) {
     try {
+      if (message.mentions.users.first().bot) {
+      const member = message.mentions.members.first()
+       member.ban 
+      } else {
+      
     const permission = message.guild.me.hasPermission('KICK_MEMBERS')
     if (!permission) return message.reply('**Unable to execute the command**: I dont have permisson to kick members.')
     const bot = message.client
@@ -34,6 +39,7 @@ module.exports = {
     member.send(embed)
     member.ban()
     message.reply(`**${member.username}** successfully banned`)
+      }
   } catch(err) {
     console.log(err)
   }

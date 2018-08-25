@@ -1,13 +1,13 @@
-
 const Discord = require('discord.js')
 
 module.exports = (Bot, message) => {
+  const settings = message.client.databases.guilds.data[message.guild.id]
   if (message.author.bot) return
   
   var config = Bot.config
 	if(message.author.bot) return;
-	if(!message.content.toLowerCase().startsWith(config.prefix.toLowerCase())) return;
-	const args = message.content.slice(config.prefix.length).split(/\s+/);
+	if(!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase())) return;
+	const args = message.content.slice(settings.prefix.length).split(/\s+/);
 	const CommandName = args.shift().toLowerCase();
   const level = Bot.functions.permLevel(message)
 	const Command = Bot.commands.get(CommandName) || Bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(CommandName));
@@ -21,10 +21,10 @@ module.exports = (Bot, message) => {
 	//Checking for all the options
 
 	if(!Command.enabled) return;
-	if(!Command.dm) if(message.channel.type == "dm") return message.reply("**Unable to execute the command**:please use this command in a server.")
-	if(Command.args) if(!args.length) return message.reply(`\nThe proper usage would be: \`${config.prefix}${Command.name} ${Command.usage}\`.`)
+	if(!Command.dm) if(message.channel.type == "dm") return message.reply("**Unable to execute the command**: please use this command in a server.")
+	if(Command.args) if(!args.length) return message.reply(`\nThe proper usage would be: \`${settings.prefix}${Command.name} ${Command.usage}\`.`)
 	if(Command.permissions) if(!message.member.permissions.has(parseInt(Command.permissions))) return message.channel.send(`Sorry ${message.author}, you do not have permission to run the \`${Command.name}\` command.`)
-	if(Command.nsfw) if(!message.channel.nsfw) return message.channel.send(`${message.author}, **Unable to execute the command**:please set this channel to nsfw before executing this command!`)
+	if(Command.nsfw) if(!message.channel.nsfw) return message.channel.send(`${message.author}, **Unable to execute the command**: please set this channel to nsfw before executing this command!`)
 
 	//Cooldowns
 

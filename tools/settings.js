@@ -1,7 +1,6 @@
 const settings = { //not ready
   'defaultSettings': {
     'prefix': 'b$',
-    'nsfw': false,
     'welcomeChannel': 'welcome',
     'welcomeMessage': '{{user}} Just joinned the party!',
     'leaveMessage': 'Oh no {{user}} just left us...',

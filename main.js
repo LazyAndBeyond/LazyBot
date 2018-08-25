@@ -9,6 +9,9 @@ const options = {
   'shardCount': 0 //Since the bot isnt on 2k+ servers, We do not shard.
 }
 
+//DBL vote tracker
+
+//glitch ping code
 app.get('/', (request, response) => {
   response.sendStatus(200)
 })
@@ -75,4 +78,4 @@ setInterval(function() {
   db.write(db.data)
 
 
-}, 120000)
+}, 30000)

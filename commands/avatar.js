@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Remember when you want a user avatar but he doesn't want to give it, well you can have it now.",
   execute(message, args, level) {
      const Discord = require('discord.js')

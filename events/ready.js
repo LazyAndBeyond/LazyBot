@@ -1,6 +1,15 @@
 const Discord = require('discord.js')
 
-module.exports = (Bot, settings) => {
+module.exports = (Bot) => {
+  var presence = { //Setting the presence
+    game: {
+      //name: `${Bot.config.prefix}help | ${Bot.guilds.size} servers`,
+      name: `Now with costume settings!!! | b$help`,
+      type: 3
+    }
+  }
+
+  Bot.user.setPresence(presence)
   
   var msg = `
 ------------------------------------------------------
@@ -15,21 +24,10 @@ LET'S GO!
       
  console.log(msg)
   
-  Bot.emit('message')
-  
-  var presence = { //Setting the presence
-    game: {
-      name: `${Bot.config.prefix}help | ${Bot.guilds.size} servers`,
-      type: 3
-    }
-  }
-
-  Bot.user.setPresence(presence)
-  
-  //data base crap
+  //Database Loader
   
   var db = Bot.databases.guilds
-  var data = db.read()
+  var data = db.data //Changed db.read() to db.data so you can make changes to the variable
   
   Bot.guilds.map(g => {
 
@@ -47,6 +45,19 @@ LET'S GO!
 
   })
   
-  db.write(data)
+  
+//discord bot list poster
+setInterval(() => {
+const snekfetch = require('snekfetch');
+const key = 'key';
+
+snekfetch.post(`https://discordbots.org/api/bots/${Bot.user.id}/stats`)
+    .set('Authorization', key)
+    .send({ server_count: Bot.guilds.size })
+    .catch((e) => console.error(e));
+}, 1800000);
+  
+  
+  
   
 }

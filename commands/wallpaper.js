@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 2,
-    "category": "Fun-Commands",
+    "category": "Custom-Commands",
     "description": "It does what it says... (sometimes the api fails so try again if it does)",
   execute(message, args, level) {
     const randomAnimeWallpapers = require('random-anime-wallpapers')

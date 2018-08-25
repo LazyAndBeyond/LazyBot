@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Search your favorite animes with the bot while its possible!",
   execute(message, args, level) {
   const Discord = require('discord.js')

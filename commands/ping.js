@@ -27,7 +27,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Displays the current ping of the bot and the Websocket ping.",
   execute(message, args, level) {
   var then = Date.now()

@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 2,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "Quick maths",
     execute(message, args, level) {
       const Discord = require('discord.js')

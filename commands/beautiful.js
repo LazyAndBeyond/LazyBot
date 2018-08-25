@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Fun-Commands",
     "description": "Try it and you will understand why its called like that.",
   async execute(message, args, level) {
   const { Canvas } = require('canvas-constructor')

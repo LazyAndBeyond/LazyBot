@@ -8,7 +8,7 @@ module.exports = {
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
-    "category": "Costum-Commands",
+    "category": "Custom-Commands",
     "description": "And you thought only FBI can get others informations ;D",
   execute(message, args, level) {
     try {
@@ -26,7 +26,7 @@ module.exports = {
         .setColor('RANDOM')
         .setThumbnail(user.displayAvatarURL)
         .addField('Game', `**${game}**`)
-        .addField('Statu:', `**${message.member.presence.status}**`)
+        .addField('Statu:', `**${member1.presence.status}**`)
         .addField('Full Username:', `**${user.username}**`)
         .addField('ID:', `**${user.id}**`)
         .addField('Joined At:', `**${member1.joinedAt}**`)

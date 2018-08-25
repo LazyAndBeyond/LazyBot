@@ -1,0 +1,141 @@
+function rule(message, query) {
+
+query = query.split(" ").join("%20")
+
+    let path = "/index.php?page=dapi&s=post&q=index&tags=" + query;
+
+    let random = false;
+
+    if (query == undefined) {
+
+        path = "/index.php?page=dapi&s=post&q=index&pid=" + Math.floor((Math.random() * 2000));
+
+        random = true;
+
+    }
+
+    let options = {
+
+        host: "rule34.xxx",
+
+        port: 443,
+
+        path: path
+
+    };
+
+    //console.log(options.path);
+
+    https.get(options, function (resp) {
+
+        let data = '';
+
+        resp.setEncoding('utf8');
+
+        resp.on('data', function (chunk) {
+
+            data += chunk;
+
+        });
+
+        resp.on('end', function () {
+
+            xml2js.parseString(data, (err, r) => {
+
+                let getImg = true;
+
+                if (!random) {
+
+                    let resultsCount = r.posts.$.count;
+
+                    if (resultsCount > 100) {
+
+                        getImg = false;
+
+                        let pIDs = Math.ceil(resultsCount / 100);
+
+                        let options = {
+
+                            host: "rule34.xxx",
+
+                            port: 443,
+
+                            path: "/index.php?page=dapi&s=post&q=index&tags=" + query + "&pid=" + Math.floor((Math.random() * pIDs))
+
+                        };
+
+                        //console.log(options.path);
+
+                        https.get(options, function (resp) {
+
+                            let data = '';
+
+                            resp.setEncoding('utf8');
+
+                            resp.on('data', function (chunk) {
+
+                                data += chunk;
+
+                            });
+
+                            resp.on('end', function () {
+
+                                xml2js.parseString(data, (err, r) => {
+
+                                     if (r.posts && r.posts.$.count > 1) {
+
+                        let nResults = r.posts.post.length;
+
+                        let randNum = Math.floor((Math.random() * nResults));
+
+                        message.channel.send(r.posts.post[randNum].$.file_url);
+
+                    } else {
+
+                        message.channel.send('No results found... :(');
+
+                    }
+
+                                });
+
+                            }.bind(this));
+
+                        }.bind(this)).on("error", function (e) {
+
+                            console.log(e);
+
+                        });
+
+                    }
+
+                }
+
+                if (getImg) {
+
+                     if (r.posts && r.posts.$.count > 1) {
+
+                        let nResults = r.posts.post.length;
+
+                        let randNum = Math.floor((Math.random() * nResults));
+
+                        message.channel.send(r.posts.post[randNum].$.file_url);
+
+                    } else {
+
+                        message.channel.send('No results found... :(');
+
+                    }
+
+                }
+
+            });
+
+        }.bind(this));
+
+    }.bind(this)).on("error", function (e) {
+
+        console.log(e);
+
+    });
+
+}
