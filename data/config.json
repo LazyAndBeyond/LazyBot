@@ -1,5 +1,6 @@
 {
   "token": "TOKEN",
+  "prefix": "b$",
   "owner_id": "YOUR ID",
   "admins": ["ADMIN ID"]
 }
