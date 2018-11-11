@@ -34,7 +34,7 @@ module.exports = {
         if (!member.roles.has(muteRole.id)) return message.reply('**Unable to execute the command**: the user is not muted')
 
         member.removeRole(muteRole)
-        bot.users.find('id', message.mentions.members.first().id).send(`You have been unmutted in **${message.guild.name}**.`)
+        bot.users.find(user => user.id === message.mentions.members.first().id).send(`You have been unmutted in **${message.guild.name}**.`)
         message.channel.send(member + ' has been unmuted.')
     } catch(err) {
   console.log(err)

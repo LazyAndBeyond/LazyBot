@@ -19,6 +19,7 @@ module.exports = {
         let thetime = args1[1]
         if (!thetime) return message.reply('**Unable to execute the command**: ther is no time specified.')
         let member = message.mentions.members.first()
+        if (member.id === message.client.user.id) return message.reply('why would you mute me??')
         if (!member) return message.reply('**Unable to execute the command**: You need to mention a user!')
         let muteRole = message.guild.roles.find(r => r.name === 'Muted')
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.reply('**Unable to execute the command**: i dont have the required permission to mute the member')
@@ -75,13 +76,13 @@ module.exports = {
           .addField('Moderator', `${message.author.username}#${message.author.discriminator}`)
 
         member.addRole(muteRole)
-        bot.users.find('id', message.mentions.members.first().id).send(embed1)
+        bot.users.find(user => user.id === message.mentions.members.first().id).send(embed1)
         message.channel.send(embed)
 
         setTimeout(function() {
           if (!member.roles.has(muteRole.id)) return
           member.removeRole(muteRole.id)
-          bot.users.find('id', message.mentions.members.first().id).send(embed2)
+          bot.users.find(user => user.id === message.mentions.members.first().id).send(embed2)
           message.channel.send(member + ' has been unmuted.')
         }, ms(thetime))
     } catch(err) {

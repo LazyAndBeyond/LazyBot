@@ -13,16 +13,15 @@ module.exports = {
   execute(message, args, level) {
      const Discord = require('discord.js')
      const bot = message.client
-      const user = message.mentions.users.first()
-      let avatar = user.displayAvatarURL
+     const us = message.mentions.users.first()
+      let avatar = us.displayAvatarURL
       let embed = new Discord.RichEmbed()
-
         .setAuthor('Avatar requested by: ' + message.author.username)
         .setColor('RANDOM')
-        .setImage(avatar)
+        .setImage(`${avatar}`)
         .setFooter('Requested at: ', bot.user.displayAvatarURL)
         .setTimestamp()
 
-      message.channel.send(embed)
+      message.channel.send({embed:embed})
   }
 }

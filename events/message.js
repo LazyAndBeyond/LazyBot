@@ -1,12 +1,12 @@
 const Discord = require('discord.js')
 
 module.exports = (Bot, message) => {
-  const settings = message.client.databases.guilds.data[message.guild.id]
   if (message.author.bot) return
+  if (message.guild && !message.guild.me.hasPermission('SEND_MESSAGES')) return
   
   var config = Bot.config
-	if(message.author.bot) return;
-	if(!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase())) return;
+  const settings = message.client.databases.guilds.data[message.guild.id]
+	if (!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase())) return;
 	const args = message.content.slice(settings.prefix.length).split(/\s+/);
 	const CommandName = args.shift().toLowerCase();
   const level = Bot.functions.permLevel(message)

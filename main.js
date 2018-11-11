@@ -62,10 +62,23 @@ Client.levelCache = {}
   }
 
 setInterval(function() {
+const activities_list = [
+    "the developers console",
+    "you and the crew", 
+    "JavaScript errors",
+    "some dank codes",
+    "guild leaves...",
+    "over you",
+    "USERS!",
+    "Senpai's!",
+    "Tetsuya!"
+    ]
+
+const statues = activities_list[Math.round(Math.random() * (activities_list.length - 1))]
 
   var presence = { //Setting the presence
     game: {
-      name: `${Client.config.prefix}help | ${Client.guilds.size} servers`,
+      name: `${statues} | ${Client.config.prefix}help`,
       type: 3
     }
   }
@@ -78,4 +91,4 @@ setInterval(function() {
   db.write(db.data)
 
 
-}, 30000)
+}, 60000)

@@ -3,7 +3,7 @@ module.exports = {
     "dm": false,
     "args": true,
     "usage": "<num1> <+, -, /, *> <num2>",
-    "aliases": [],
+    "aliases": ["maff"],
     "permLevel": "User",
     "nsfw": false,
     "enabled": true,

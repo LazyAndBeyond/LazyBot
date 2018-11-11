@@ -1,19 +1,14 @@
 {
-"install": {
-  "include": [
-    "^package\\.json$",
-    "^\\.env$"
-  ]
-},
-"restart": {
-  "exclude": [
-    "^public/",
-    "^dist/"
-  ],
-  "include": [
-    "\\.js$",
-    "\\.json"
-  ]
-},
-"throttle": 900000000
+  "install": {
+    "include": [
+      "^package\\.json$",
+      "^\\.env$"
+    ]
+  },
+  "restart": {
+    "include": [
+      "^.trigger-rebuild$"
+    ]
+  },
+  "throttle": 100
 }

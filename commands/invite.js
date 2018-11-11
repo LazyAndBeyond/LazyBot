@@ -17,7 +17,7 @@ module.exports = {
     .setTitle('Thank you for having me in your server Onii-chan!!')
     .setColor('RANDOM')
     .setThumbnail(bot.user.displayAvatarURL)
-    .addField(':link: Invite Link', `[Invite URL](https://discordapp.com/oauth2/authorize?client_id=${bot.user.id}&scope=bot&permissions=268443710)`)
+    .addField(':link: Invite Link', `[Invite URL](https://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=1342565503)`)
     message.channel.send(embed)
   }
 }

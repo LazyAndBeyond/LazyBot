@@ -7,7 +7,7 @@ module.exports = {
     "permLevel": "User",
     "nsfw": false,
     "enabled": true,
-    "cooldown": 3,
+    "cooldown": 60,
     "category": "Custom-Commands",
     "description": "Bumps your server infos to my server so you get more members!",
   async execute(message, args, level) {

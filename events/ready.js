@@ -1,15 +1,28 @@
 const Discord = require('discord.js')
+const activities_list = [
+    "the developers console",
+    "you and the crew", 
+    "JavaScript errors",
+    "some dank codes",
+    "guild leaves...",
+    "over you",
+    "USERS!",
+    "Senpai's!",
+    "Tetsuya!"
+    ]
+const statues = activities_list[Math.round(Math.random() * (activities_list.length - 1))]
 
 module.exports = (Bot) => {
   var presence = { //Setting the presence
-    game: {
+      game: {
       //name: `${Bot.config.prefix}help | ${Bot.guilds.size} servers`,
-      name: `Now with costume settings!!! | b$help`,
+      name: `${statues} | b$help`,
       type: 3
     }
   }
-
+setInterval(() => {
   Bot.user.setPresence(presence)
+  }, 10000)
   
   var msg = `
 ------------------------------------------------------

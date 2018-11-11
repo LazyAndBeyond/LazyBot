@@ -1,23 +1,30 @@
 module.exports = {
     "name": "settings",
     "dm": false,
-    "args": true,
-    "usage": "<prefix/welcomeChannel/welcomeMessage/leaveMessage/welcomeEnabled>",
+    "args": false,
+    "usage": "<prefix> <value> / <welcomeChannel> <value> / <welcomeMessage> <value> / <leaveMessage> <value> / <welcomeEnabled> <true/false> / starboardChannel <value> / starboardEnabled <true/false> / reset (resets all settings to default)",
     "aliases": [],
     "permLevel": "Admin",
     "nsfw": false,
     "enabled": true,
     "cooldown": 3,
     "category": "Server-Moderation",
-    "description": "Change the guild settings of the bot (If you want to reset it use <prefix>settings reset)",
+    "description": "Change the guild settings of the bot (use <prefix>help settings for more info)",
   execute(message, args, level) {
     const value = message.content.split(' ').splice(2).join(' ')
     const settings = message.client.databases.guilds.data[message.guild.id]
     const util = require('util')
+    const key = args[0]
     
+    if (!key) return message.channel.send(`[${settings.prefix}help settings for more info]\n${util.inspect(settings)}`, {code: 'coffeescript'})
+    if (!settings[key]) return message.reply(`No such setting avaible, please refer to "${settings.prefix}help settings"} `)
+    if (!value) message.reply('Please specify a new value')
+
+    settings[key] = value
+    message.reply(`**${key}** successfully changed to **${value}**`)
     try {
-    switch (args[0]) {
-        case 'prefix' :
+    switch (key) {
+       /* case 'prefix' :
         if (!value) return message.reply('You need to add a value!')
         settings.prefix = value
         message.reply(`Prefix successfully changed to **${value}**`)
@@ -47,9 +54,12 @@ module.exports = {
         message.reply(`welcomeEnabled successfully changed to **${value}**`)
         break
         
-        case 'get' :
-        message.channel.send(util.inspect(settings), {code: 'coffeescript'})
+        case 'starboardEnabled' :
+        if (!value) return message.reply('You need to add a value!')
+        settings.starboardEnabled = value
+        message.reply(`starboardEnabled successfully changed to **${value}**`)
         break
+        */
         
         case 'reset' :
         const defaultSettings = message.client.settings.defaultSettings
@@ -58,8 +68,10 @@ module.exports = {
         settings.welcomeMessage = defaultSettings.welcomeMessage
         settings.leaveMessage = defaultSettings.leaveMessage
         settings.welcomeEnabled = defaultSettings.welcomeEnabled
+        settings.starboardChannel = defaultSettings.starboardChannel
+        settings.starboardEnabled = defaultSettings.starboardEnabled
         message.reply(`Guild settings successfully resetted`)
-        break
+        break 
       }
     } catch(e) {
       console.log(e)
