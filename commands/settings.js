@@ -2,79 +2,186 @@ module.exports = {
     "name": "settings",
     "dm": false,
     "args": false,
-    "usage": "<prefix> <value> / <welcomeChannel> <value> / <welcomeMessage> <value> / <leaveMessage> <value> / <welcomeEnabled> <true/false> / starboardChannel <value> / starboardEnabled <true/false> / reset (resets all settings to default)",
+    "usage": "<key> <value> (keys are: prefix, welcomeEnabled, welcomeChannel, welcomeMessage, leaveMessage) / reset to reset all settings to default",
     "aliases": [],
     "permLevel": "Admin",
     "nsfw": false,
     "enabled": true,
-    "cooldown": 3,
+    "cooldown": 5,
     "category": "Server-Moderation",
     "description": "Change the guild settings of the bot (use <prefix>help settings for more info)",
-  execute(message, args, level) {
-    const value = message.content.split(' ').splice(2).join(' ')
-    const settings = message.client.databases.guilds.data[message.guild.id]
-    const util = require('util')
-    const key = args[0]
-    
-    if (!key) return message.channel.send(`[${settings.prefix}help settings for more info]\n${util.inspect(settings)}`, {code: 'coffeescript'})
-    if (!settings[key]) return message.reply(`No such setting avaible, please refer to "${settings.prefix}help settings"} `)
-    if (!value) message.reply('Please specify a new value')
+    execute(message, args, level) {
+        const mongoose = require('mongoose')
+        const db = require('../modules/MongoDB.js')
+        const util = require('util')
+        const bot = message.client
+        const key = args[0]
+        const value = message.content.split(' ').splice(2).join(' ')
 
-    settings[key] = value
-    message.reply(`**${key}** successfully changed to **${value}**`)
-    try {
-    switch (key) {
-       /* case 'prefix' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.prefix = value
-        message.reply(`Prefix successfully changed to **${value}**`)
-        break
-        
-        case 'welcomeChannel' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.welcomeChannel = value
-        message.reply(`WelcomeChannel successfully changed to **${value}**`)
-        break
-        
-        case 'welcomeMessage' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.welcomeMessage = value
-        message.reply(`welcomeMessage successfully changed to **${value}**`)
-        break
-        
-        case 'leaveMessage' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.leaveMessage = value
-        message.reply(`leaveMessage successfully changed to **${value}**`)
-        break
-        
-        case 'welcomeEnabled' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.welcomeEnabled = value
-        message.reply(`welcomeEnabled successfully changed to **${value}**`)
-        break
-        
-        case 'starboardEnabled' :
-        if (!value) return message.reply('You need to add a value!')
-        settings.starboardEnabled = value
-        message.reply(`starboardEnabled successfully changed to **${value}**`)
-        break
-        */
-        
-        case 'reset' :
-        const defaultSettings = message.client.settings.defaultSettings
-        settings.prefix = defaultSettings.prefix
-        settings.welcomeChannel = defaultSettings.welcomeChannel
-        settings.welcomeMessage = defaultSettings.welcomeMessage
-        settings.leaveMessage = defaultSettings.leaveMessage
-        settings.welcomeEnabled = defaultSettings.welcomeEnabled
-        settings.starboardChannel = defaultSettings.starboardChannel
-        settings.starboardEnabled = defaultSettings.starboardEnabled
-        message.reply(`Guild settings successfully resetted`)
-        break 
-      }
-    } catch(e) {
-      console.log(e)
+        /*mongoose.connect(`${process.env.MONGO}`, {
+            useNewUrlParser: true,
+            useFindAndModify: false,
+        })*/
+
+        db.find({
+            guildID: message.guild.id
+        })
+
+        db.findOne({
+            guildID: message.guild.id
+        }, (err, data) => {
+            if (!data) {
+                const guild = message.guild
+                const guilddb = new db({
+                    guildID: guild.id,
+                    prefix: 'b$',
+                    welcomeEnabled: false,
+                    welcomeChannel: 'welcome',
+                    welcomeMessage: 'Welcome to {{guild}} {{user}}!',
+                    leaveMessage: 'Bye {{user}}',
+                    modLog: false,
+                    logChannel: 'modlog'
+                })
+                guilddb.save()
+                    .then(() => {
+                        db.findOne({
+                            guildID: message.guild.id
+                        }, (error, result) => {
+                            if (result && !key) message.channel.send(`${util.inspect(result)}`, {
+                                code: 'coffeescript'
+                            }).catch(err1 => console.log(err1))
+                        })
+                    })
+                /*.then(result => message.channel.send(`${util.inspect(result)}`, {
+                                       code: 'coffeescript'
+                                   })).catch(err => console.log(err))*/
+            } else {
+                if (!key) return message.channel.send(`${util.inspect(data)}`, {
+                    code: 'coffeescript'
+                })
+            }
+
+            /*if (!key) return message.channel.send(`${util.inspect(data)}`, {
+                code: 'coffeescript'
+            })*/
+            if (!value && !key) return //message.channel.send(`${util.inspect(data)}`, {code: 'coffeescript'})
+            //if (!data.key) return message.reply(`${key} doesnt exsist in the db`)
+            if (!value && key && key !== 'reset') return message.reply('Please specify a new value')
+
+            switch (key) {
+
+                case 'prefix':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        prefix: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply(`**Prefix** changed to **${value}**`)
+                    break
+
+                case 'welcomeChannel':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        welcomeChannel: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply(`**WelcomeChannel** changed to **${value}**`)
+                    break
+
+                case 'welcomeEnabled':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        welcomeEnabled: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply(`**WelcomeEnabled** changed to **${value}**`)
+                    break
+
+                case 'welcomeMessage':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        welcomeMessage: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply(`**WelcomeMessage** changed to **${value}**`)
+                    break
+
+                case 'leaveMessage':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        leaveMessage: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply(`**LeaveMessage** changed to **${value}**`)
+                    break
+
+                case 'modLog':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        modLog: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    break
+
+                case 'logChannel':
+                    db.findByIdAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        logChannel: value
+                    }, {
+                        new: true
+                    }).select('-_id -__v').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    break
+
+                case 'reset':
+                    db.findOneAndUpdate({
+                        guildID: message.guild.id
+                    }, {
+                        prefix: 'b$'
+                    }, {
+                        welcomeChannel: 'welcome'
+                    }, {
+                        welcomeEnabled: false
+                    }, {
+                        welcomeMessage: 'Welcome to {{guild}} {{user}}!'
+                    }, {
+                        leaveMessage: 'Bye {{user}}'
+                    }, {
+                        new: true
+                    }).select('-_id -__v -guildID').then(output => message.channel.send(`${util.inspect(output)}`, {
+                        code: 'coffeescript'
+                    }))
+                    message.reply('Guild settings resetted.')
+                    break
+            }
+            /*data.key = value
+            message.reply(key + ' was changed to ' + value)*/
+        }).select('-_id -__v -guildID')
     }
-  }
 }

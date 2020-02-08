@@ -1,6 +1,5 @@
 {
-  "token": "TOKEN",
-  "prefix": "b$",
-  "owner_id": "YOUR ID",
-  "admins": ["ADMIN ID"]
+    "prefix": "b$",
+    "owner_id": "240458124522160128",
+    "admins": ["514951951243411467"]
 }

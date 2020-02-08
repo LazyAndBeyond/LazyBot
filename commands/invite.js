@@ -14,7 +14,7 @@ module.exports = {
     const Discord = require('discord.js')
     const bot = message.client
     const embed = new Discord.RichEmbed()
-    .setTitle('Thank you for having me in your server Onii-chan!!')
+    .setTitle('Hurry and invite before i get too lazy to join your server.')
     .setColor('RANDOM')
     .setThumbnail(bot.user.displayAvatarURL)
     .addField(':link: Invite Link', `[Invite URL](https://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=1342565503)`)

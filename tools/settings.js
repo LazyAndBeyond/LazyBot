@@ -4,9 +4,7 @@ const settings = { //not ready
     'welcomeChannel': 'welcome',
     'welcomeMessage': '{{user}} Just joinned the party!',
     'leaveMessage': 'Oh no {{user}} just left us...',
-    'welcomeEnabled': 'false',
-    'starboardChannel': 'starboard',
-    'starboardEnabled': 'true'
+    'welcomeEnabled': 'false'
   },
     permLevels: [
     { level: 0,

@@ -9,7 +9,7 @@ module.exports = {
     "enabled": true,
     "cooldown": 2,
     "category": "Nsfw-Commands",
-    "description": "Look at Da tits!",
+    "description": "Anyone could use looking at some nice boobs here and there",
   execute(message, args, level) {
     const Discord = require('discord.js')
     const snekfetch = require('snekfetch')
@@ -19,7 +19,7 @@ module.exports = {
       const preview = r.body[0]['PREVIEW'.toLowerCase()]
       const image = `http://media.oboobs.ru/${preview}`
       const embed = new Discord.RichEmbed()
-        .setTitle('DA TITS!!')
+        .setTitle('A man of culture, i see.')
         .setImage(image)
         .setColor('RANDOM')
       message.channel.send(embed)

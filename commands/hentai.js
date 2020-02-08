@@ -13,11 +13,11 @@ module.exports = {
   execute(message, args, level) {
   const Discord = require('discord.js')
   const randomPuppy = require('random-puppy')
-
-    randomPuppy('hentai')
+  
+    randomPuppy('Hentai')
       .then(url => {
         const embed = new Discord.RichEmbed()
-              .setTitle(`Where are your hands going?`)
+              .setTitle(`Wait, where ur hand's going?`)
               .setImage(url)
               .setColor('RANDOM')
         return message.channel.send(embed)

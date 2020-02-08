@@ -15,8 +15,8 @@ module.exports = {
   const Discord = require('discord.js')
   const booru = require('booru')
     var search = message.content.split(/\s+/g).slice(1).join(' ')
-    booru.search('r34', [search], { limit: 1, random: true })
-            .then(booru.commonfy)
+    booru.search('r34', [search], { limit: 1, random: false })
+            
             .then(images => {
               for (let image of images) {
                 const embed = new Discord.RichEmbed()

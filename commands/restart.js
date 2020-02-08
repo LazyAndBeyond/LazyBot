@@ -20,7 +20,7 @@ module.exports = {
           process.exit()
         }, 2000)
         setTimeout(function() {
-          Bot.login(message.client.config.token).catch(console.error)
+          Bot.login(process.env.SECRET).catch(console.error)
   var presence = { //Setting the presence
     game: {
       name: `${Bot.config.prefix}help | ${Bot.guilds.size} servers`,

@@ -4,7 +4,7 @@ const ytdl = require('ytdl-core')
 const opts = {
   part: 'snippet',
   maxResults: 10,
-  key: 'AIzaSyCz6EUDhluCmZgdUOQLz8r0JZwp3LryOS8',
+  key: process.env.YTAPI,
   type: 'video'
 }
 module.exports = {
@@ -40,7 +40,7 @@ module.exports = {
 
   const dispatcher = voiceConnection.player.dispatcher
 
-  if (suffix > 200 || suffix < 0) {
+  if (suffix > 100 || suffix < 0) {
     return msg.reply('**Volume out of range!**').then((response) => {
       response.delete(5000)
     })

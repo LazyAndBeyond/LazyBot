@@ -1,67 +1,106 @@
-const Discord = require('discord.js')
+const Discord = require("discord.js");
 
 module.exports = (Bot, message) => {
-  if (message.author.bot) return
-  if (message.guild && !message.guild.me.hasPermission('SEND_MESSAGES')) return
-  
-  var config = Bot.config
-  const settings = message.client.databases.guilds.data[message.guild.id]
-	if (!message.content.toLowerCase().startsWith(settings.prefix.toLowerCase())) return;
-	const args = message.content.slice(settings.prefix.length).split(/\s+/);
-	const CommandName = args.shift().toLowerCase();
-  const level = Bot.functions.permLevel(message)
-	const Command = Bot.commands.get(CommandName) || Bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(CommandName));
-	if(!Command) return;
-  
-  //The user permission level code
-    if (level < Bot.levelCache[Command.permLevel]) {
-      return message.reply(`**Unable to execute the command**:you do not have permission to use this command.\nYour permission level is **${level}** (**${Bot.settings.permLevels.find(l => l.level === level).name}**)\nThis command requires level **${Bot.levelCache[Command.permLevel]}** (**${Command.permLevel}**)`)
-  }
+  if (message.author.bot) return;
+  if (message.guild && !message.guild.me.hasPermission("SEND_MESSAGES")) return;
 
-	//Checking for all the options
+  const mongoose = require("mongoose");
+  const database = require("../modules/MongoDB.js");
 
-	if(!Command.enabled) return;
-	if(!Command.dm) if(message.channel.type == "dm") return message.reply("**Unable to execute the command**: please use this command in a server.")
-	if(Command.args) if(!args.length) return message.reply(`\nThe proper usage would be: \`${settings.prefix}${Command.name} ${Command.usage}\`.`)
-	if(Command.permissions) if(!message.member.permissions.has(parseInt(Command.permissions))) return message.channel.send(`Sorry ${message.author}, you do not have permission to run the \`${Command.name}\` command.`)
-	if(Command.nsfw) if(!message.channel.nsfw) return message.channel.send(`${message.author}, **Unable to execute the command**: please set this channel to nsfw before executing this command!`)
+  database.findOne(
+    {
+      guildID: message.guild.id
+    },
+    (err, data) => {
+      if (!data) data = {};
+      let prefix = data.prefix;
+      if (!prefix) prefix = "b$"; //If theres no prefix saved, set prefix to b$
+      if (message.isMentioned(message.client.user)) {
+        message.reply(`Prefix is: **${prefix}**`);
+      }
+      if (!message.content.startsWith(prefix)) return;
+      const args = message.content.slice(prefix.length).split(/\s+/);
+      const CommandName = args.shift().toLowerCase();
+      const level = Bot.functions.permLevel(message);
+      const Command =
+        Bot.commands.get(CommandName) ||
+        Bot.commands.find(
+          cmd => cmd.aliases && cmd.aliases.includes(CommandName)
+        );
+      if (!Command) return;
 
-	//Cooldowns
+      //The user permission level code
+      if (level < Bot.levelCache[Command.permLevel]) {
+        return message.reply(
+          `**Unable to execute the command**:you do not have permission to use this command.\nYour permission level is **${level}** (**${
+            Bot.settings.permLevels.find(l => l.level === level).name
+          }**)\nThis command requires level **${
+            Bot.levelCache[Command.permLevel]
+          }** (**${Command.permLevel}**)`
+        );
+      }
 
-	if(!Bot.cooldowns.has(Command.name)) Bot.cooldowns.set(Command.name, new Discord.Collection());
+      //Checking for all the options
 
-	const timestamps = Bot.cooldowns.get(Command.name)
-	const cooldownAmount = (Command.cooldown || 5) * 1000
+      if (!Command.enabled) return;
+      if (!Command.dm)
+        if (message.channel.type == "dm")
+          return message.reply(
+            "**Unable to execute the command**: please use this command in a server."
+          );
+      if (Command.args)
+        if (!args.length)
+          return message.reply(
+            `\nThe proper usage would be: \`${prefix}${Command.name} ${Command.usage}\`.`
+          );
+      if (Command.permissions)
+        if (!message.member.permissions.has(parseInt(Command.permissions)))
+          return message.channel.send(
+            `Sorry ${message.author}, you do not have permission to run the \`${Command.name}\` command.`
+          );
+      if (Command.nsfw)
+        if (!message.channel.nsfw)
+          return message.channel.send(
+            `${message.author}, **Unable to execute the command**: please set this channel to nsfw before executing this command!`
+          );
 
-	if(!timestamps.has(message.author.id)) {
-		timestamps.set(message.author.id, Date.now())
-		setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
-	} else {
-		//Time left message
+      //Cooldowns
 
-		const expirtationTime = timestamps.get(message.author.id) + cooldownAmount
+      if (!Bot.cooldowns.has(Command.name))
+        Bot.cooldowns.set(Command.name, new Discord.Collection());
 
-		if(Date.now() < expirtationTime) {
-			const timeLeft = (expirtationTime - Date.now()) / 1000
+      const timestamps = Bot.cooldowns.get(Command.name);
+      const cooldownAmount = (Command.cooldown || 5) * 1000;
 
-			return message.channel.send(`${message.author}, Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${Command.name}\` command.`)
+      if (!timestamps.has(message.author.id)) {
+        timestamps.set(message.author.id, Date.now());
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+      } else {
+        //Time left message
 
-		}
+        const expirtationTime =
+          timestamps.get(message.author.id) + cooldownAmount;
 
-	timestamps.set(message.author.id, Date.now())
-	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
+        if (Date.now() < expirtationTime) {
+          const timeLeft = (expirtationTime - Date.now()) / 1000;
 
-	}
+          return message.channel.send(
+            `${message.author}, Please wait ${timeLeft.toFixed(
+              1
+            )} more second(s) before reusing the \`${Command.name}\` command.`
+          );
+        }
 
-//Execute the command
+        timestamps.set(message.author.id, Date.now());
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+      }
 
-Command.execute(message, args, level)
+      //Execute the command
 
-}
-
-
-
-
+      Command.execute(message, args, level);
+    }
+  );
+};
 
 /*
 

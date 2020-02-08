@@ -19,7 +19,7 @@ module.exports = {
 message.channel.send(`= STATISTICS =
 • Full Name      ::   ${bot.user.username}
 • ID             ::   ${bot.user.id}
-• Owner          ::   @AyoußMadrid#7940
+• Owner          ::   @LazyAndBeyond#4763
 • Admin          ::   @LoseJoe#5572
 • Users          ::   ${bot.users.size.toLocaleString()}
 • Servers        ::   ${bot.guilds.size.toLocaleString()}

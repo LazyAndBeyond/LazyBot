@@ -13,10 +13,10 @@ module.exports = {
   async execute(message, args, level) {
   const { Canvas } = require('canvas-constructor')
   const snek = require('snekfetch')
-  const fsn = require('fs-nextra')
+  const fsn = require('fs')
 
   const getBeautiful = async (person) => {
-    const plate = await fsn.readFile('./assest/bt.png')
+    const plate = await fsn.readFileSync('./assest/bt.png')
     const png = person.replace(/\.gif.+/g, '.png')
     const { body } = await snek.get(png)
     return new Canvas(634, 675)

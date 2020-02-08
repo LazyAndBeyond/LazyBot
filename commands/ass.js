@@ -9,7 +9,7 @@ module.exports = {
     "enabled": true,
     "cooldown": 2,
     "category": "Nsfw-Commands",
-    "description": "Look at Dat ass!",
+    "description": "To keep the balance with boobs and asses",
   execute(message, args, level) {
     const Discord = require('discord.js')
     const snekfetch = require('snekfetch')
@@ -19,7 +19,7 @@ module.exports = {
       const preview = r.body[0]['PREVIEW'.toLowerCase()]
       const image = `http://media.obutts.ru/${preview}`
       const embed = new Discord.RichEmbed()
-        .setTitle('DAT ASS!!')
+        .setTitle('Why are you unzipping your pants?')
         .setImage(image)
         .setColor('RANDOM')
       message.channel.send(embed)

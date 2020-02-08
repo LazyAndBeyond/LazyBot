@@ -1,2 +1,2 @@
-Mayumi Beta version!!
-=====================
+LazyBot
+-------
