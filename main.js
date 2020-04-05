@@ -9,32 +9,22 @@ const options = {
   shardCount: 0 //Since the bot isnt on 2k+ servers, We do not shard.
 };
 
-//DBL vote tracker
-
-//glitch ping code
-app.get("/", (request, response) => {
-  response.sendStatus(200);
-});
-app.listen(process.env.PORT);
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 300000);
 
 var Client = new Discord.Client(options);
-var DBManager = require("./DBManager/DBManager.js");
 
+Client.tokens = require('./data/tokens.json')
 Client.config = require("./data/config.json");
-Client.functions = require("./modules/functions.js");
-Client.databases = {};
-Client.databases.guilds = new DBManager.db({
-  name: "guilds"
-}); //Create a database for each guild
+Client.functions = require("./modules/functions.js");//Create a database for each guild
 Client.commands = new Discord.Collection();
 Client.cooldowns = new Discord.Collection();
 Client.spam = new Discord.Collection();
 Client.settings = require("./tools/settings.js");
 
-Client.login(process.env.SECRET).catch(console.error); //Log into the client
+
+
+
+
+Client.login(Client.tokens.SECRET).catch(console.error); //Log into the client
 
 fs.readdir("./events/", (err, files) => {
   if (err) return console.error(err);
@@ -88,7 +78,4 @@ setInterval(function() {
   Client.user.setPresence(presence);
 
   //Saving the database
-
-  var db = Client.databases.guilds;
-  db.write(db.data);
 }, 60000);
