@@ -1,29 +1,35 @@
 module.exports = {
-    "name": "hug",
-    "dm": false,
-    "args": true,
-    "usage": "<mention>",
-    "aliases": [],
-    "permLevel": "User",
-    "nsfw": false,
-    "enabled": true,
-    "cooldown": 2,
-    "category": "Fun-Commands",
-    "description": "For people that really like to hug others and not get called weirdos or get beaten up.",
+  name: "hug",
+  dm: false,
+  args: false,
+  usage: "<mention>",
+  aliases: [],
+  permLevel: "User",
+  nsfw: false,
+  enabled: true,
+  cooldown: 2,
+  category: "Fun-Commands",
+  description:
+    "For people that really like to hug others and not get called weirdos or get beaten up.",
   execute(message, args, level) {
-    const neko = require('neko.js')
-    const nekoclient = new neko.Client()
-      let user = message.mentions.users.first()
-      if (!user) return message.reply('Please mention someone to pat them.')
-      if (user.id === message.author.id) return message.channel.send('O_o you wanna hug yourself??')
-      nekoclient.hug().then((hug) => message.channel.send(`**${user}** , **${message.author.username}** hugged you! \n`, {
-        embed: {
-          color: message.client.functions.getRandomInt(),
-          image: {
-            url: hug.url
-          }
-        }
+    const Discord = require("discord.js");
+    const bot = new Discord.Client();
+    const client = require("nekos.life");
+    const neko = new client();
 
-      }).catch(e => console.warn('wew tf happened here ' + e)))
+    const mention = message.mentions.users.first();
+    if (!mention) return message.reply("But.. hug who?");
+    if (mention.id === message.author.id)
+      return message.channel.send(
+        `OOF didn't know you're that lonely... but don't worry, i will hug you myself`
+      );
+
+    neko.sfw.hug().then(hug => {
+      const embed = new Discord.RichEmbed()
+        .setTitle(`Huuuuug`)
+        .setColor("RANDOM")
+        .setImage(hug.url);
+      message.channel.send(embed);
+    });
   }
-}
+};

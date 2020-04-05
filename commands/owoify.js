@@ -1,32 +1,26 @@
 module.exports = {
-    "name": "pat",
+    "name": "owoify",
     "dm": false,
     "args": true,
-    "usage": "<mention>",
-    "aliases": [],
+    "usage": "<text>",
+    "aliases": ["owo"],
     "permLevel": "User",
     "nsfw": false,
     "enabled": true,
     "cooldown": 2,
     "category": "Fun-Commands",
-    "description": "Give someone the pat they deserve.",
+    "description": "owoify your message",
   execute(message, args, level) {
     const Discord = require("discord.js");
     const bot = new Discord.Client();
     const client = require("nekos.life");
     const neko = new client();
+    const owoable = message.content.split(' ').slice(1).join(' ')
 
-    const mention = message.mentions.users.first();
-    if (!mention) return message.reply("But.. who do i pat?");
-    if (mention.id === message.author.id)
-      return message.channel.send(
-        `U can do that ur self`
-      );
-
-    neko.sfw.pat().then(pat => {
+    neko.sfw.OwOify({text: owoable}).then(owo => {
       const embed = new Discord.RichEmbed()
         .setColor("RANDOM")
-        .setImage(pat.url);
+        .setDescription(owo.owo);
       message.channel.send(embed);
     });
   }

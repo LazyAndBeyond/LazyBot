@@ -9,7 +9,8 @@ const activities_list = [
 const statues =
   activities_list[Math.round(Math.random() * (activities_list.length - 1))];
 const mongoose = require("mongoose");
-mongoose.connect(`${process.env.MONGO}`, {
+const tokens = require('../data/tokens.json')
+mongoose.connect(`${tokens.MONGO}`, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true
@@ -43,8 +44,8 @@ LET'S GO!
 
   //Database Loader
 
-  var db = Bot.databases.guilds;
-  var data = db.data; //Changed db.read() to db.data so you can make changes to the variable
+  //ar db = Bot.databases.guilds;
+  //var data = db.data; //Changed db.read() to db.data so you can make changes to the variable
 
   /*Bot.guilds.map(g => {
 
@@ -60,8 +61,9 @@ LET'S GO!
 
   //discord bot list poster
   setInterval(() => {
+    const tokens = require('../data/tokens.json')
     const snekfetch = require("snekfetch");
-    const key = process.env.BLAPI;
+    const key = tokens.BLAPI;
 
     snekfetch
       .post(`https://discordbots.org/api/bots/${Bot.user.id}/stats`)

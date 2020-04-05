@@ -1,5 +1,5 @@
 module.exports = {
-    "name": "invite",
+    "name": "support",
     "dm": false,
     "args": false,
     "usage": "",
@@ -9,15 +9,15 @@ module.exports = {
     "enabled": true,
     "cooldown": 3,
     "category": "Support-Commands",
-    "description": "Invite the bot to your server",
+    "description": "Join the support server if you ever need help",
   execute(message, args, level) {
     const Discord = require('discord.js')
     const bot = message.client
     const embed = new Discord.RichEmbed()
-    .setTitle('Hurry and invite before i get too lazy to join your server.')
+    .setTitle('Join the Official server if you seek support or you want to learn more')
     .setColor('RANDOM')
     .setThumbnail(bot.user.displayAvatarURL)
-    .addField(':link: Invite Link', `[Invite URL](https://discordapp.com/oauth2/authorize?client_id=358198916539482112&scope=bot&permissions=1342565503)`)
+    .addField(':link: Invite Link', `[Invite URL](https://discord.gg/bTrcY8t)`)
     message.channel.send(embed)
   }
 }

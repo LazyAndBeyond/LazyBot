@@ -1,15 +1,15 @@
 module.exports = {
-    "name": "pat",
-    "dm": false,
-    "args": true,
-    "usage": "<mention>",
-    "aliases": [],
-    "permLevel": "User",
-    "nsfw": false,
-    "enabled": true,
-    "cooldown": 2,
-    "category": "Fun-Commands",
-    "description": "Give someone the pat they deserve.",
+  name: "baka",
+  dm: false,
+  args: false,
+  usage: "",
+  aliases: [],
+  permLevel: "User",
+  nsfw: false,
+  enabled: true,
+  cooldown: 2,
+  category: "Fun-Commands",
+  description: "Anime girls saying baka",
   execute(message, args, level) {
     const Discord = require("discord.js");
     const bot = new Discord.Client();
@@ -17,17 +17,17 @@ module.exports = {
     const neko = new client();
 
     const mention = message.mentions.users.first();
-    if (!mention) return message.reply("But.. who do i pat?");
+    if (!mention) return message.reply("But.. whose the baka?");
     if (mention.id === message.author.id)
       return message.channel.send(
-        `U can do that ur self`
+        `I do have to say i agree to that, but the stupid meaning of baka`
       );
 
-    neko.sfw.pat().then(pat => {
+    neko.sfw.baka().then(baka => {
       const embed = new Discord.RichEmbed()
         .setColor("RANDOM")
-        .setImage(pat.url);
+        .setImage(baka.url);
       message.channel.send(embed);
     });
   }
-}
+};

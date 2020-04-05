@@ -9,10 +9,18 @@ module.exports = {
     "enabled": true,
     "cooldown": 2,
     "category": "Fun-Commands",
-    "description": "Why not?",
+    "description": "But why?",
   execute(message, args, level) {
-    const neko = require('neko.js')
-    const nekoclient = new neko.Client()
-nekoclient.why().then((why) => message.channel.send(why.why))
+    const Discord = require("discord.js");
+    const bot = new Discord.Client();
+    const client = require("nekos.life");
+    const neko = new client();
+
+    neko.sfw.why().then(why => {
+      const embed = new Discord.RichEmbed()
+        .setColor("RANDOM")
+        .setDescription(why.why);
+      message.channel.send(embed);
+    });
   }
 }

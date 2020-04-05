@@ -1,10 +1,11 @@
 const queues = {}
 const search = require('youtube-search')
 const ytdl = require('ytdl-core')
+const tokens = require('../data/tokens.json')
 const opts = {
   part: 'snippet',
   maxResults: 10,
-  key: process.env.YTAPI,
+  key: tokens.YTAPI,
   type: 'video'
 }
 module.exports = {

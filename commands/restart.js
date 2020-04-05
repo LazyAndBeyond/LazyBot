@@ -11,7 +11,8 @@ module.exports = {
     "category": "Owner / Admins",
     "description": "Restarts the bot.",
   execute(message, args, level) {
-    const Bot = message.client
+    const Discord = require('discord.js')
+    const Bot = new Discord.Client({fetchAllMembers:true})
         message.channel.send('Restart has been initiated.\n**Restarting...**')
         setTimeout(function() {
           Bot.destroy()

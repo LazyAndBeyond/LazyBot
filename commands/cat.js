@@ -11,18 +11,16 @@ module.exports = {
     "category": "Fun-Commands",
     "description": "Returns a picture of a cat.",
     execute(message, args, level) {
-      const snekfetch = require('snekfetch')
-      const Discord = require('discord.js')
-      const bot = message.client
-      snekfetch.get('https://thecatapi.com/api/images/get?api_key=MzM0MzA0')
-        .then((res) => {
-          const embed = new Discord.RichEmbed()
-            .setTitle(`Some random cute cats`)
-            .setColor('RANDOM')
-            .setImage(res.url)
-            .setTimestamp()
-            .setFooter('Requested At:', bot.user.displayAvatarURL)
-          message.channel.send(embed)
-        }).catch(e => console.warn('wew tf happened here ' + e))
+    const Discord = require("discord.js");
+    const bot = new Discord.Client();
+    const client = require("nekos.life");
+    const neko = new client();
+
+    neko.sfw.meow().then(meow => {
+      const embed = new Discord.RichEmbed()
+        .setColor("RANDOM")
+        .setImage(meow.url);
+      message.channel.send(embed);
+    });
     }
 }

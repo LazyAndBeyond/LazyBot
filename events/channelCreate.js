@@ -1,25 +1,29 @@
-const {
-    RichEmbed
-} = require('discord.js');
-const db = require('../modules/MongoDB.js')
+const { RichEmbed } = require("discord.js");
+const db = require("../modules/MongoDB.js");
 
 module.exports = (client, channel) => {
-    db.findOne({
-        guildID: channel.guild.id
-    }, (err, data) => {
-        const modLogChannel = channel.guild.channels.find(channel => channel.name === data.logChannel)
+  db.findOne(
+    {
+      guildID: channel.guild.id
+    },
+    (err, data) => {
+      if (!data) return;
+      if (err) console.log(err);
+      if (data.modLog === false) return;
+      if (channel.type !== "text") return;
+      const modLogChannel = channel.guild.channels.find(
+        channel => channel.name === data.logChannel
+      );
+      if (!modLogChannel) return;
 
-        if (!data) return
-        if (err) console.log(err)
-        if (data.modLog === false) return
-        if (!modLogChannel) return
-        if (channel.type !== 'text') return
-
-        modLogChannel.send(new RichEmbed()
-            .setAuthor("Channel Created", client.user.displayAvatarURL)
-            .addField("Channel Name", channel.toString())
-            .addField("ID", channel.id)
-            .setTimestamp()
-            .setColor('BLUE'));
-    })
-};;
+      modLogChannel.send(
+        new RichEmbed()
+          .setAuthor("Channel Created", client.user.displayAvatarURL)
+          .addField("Channel Name", channel.toString())
+          .addField("ID", channel.id)
+          .setTimestamp()
+          .setColor("BLUE")
+      );
+    }
+  );
+};

@@ -1,5 +1,5 @@
 module.exports = {
-    "name": "pat",
+    "name": "feed",
     "dm": false,
     "args": true,
     "usage": "<mention>",
@@ -9,7 +9,7 @@ module.exports = {
     "enabled": true,
     "cooldown": 2,
     "category": "Fun-Commands",
-    "description": "Give someone the pat they deserve.",
+    "description": "feed people online!",
   execute(message, args, level) {
     const Discord = require("discord.js");
     const bot = new Discord.Client();
@@ -17,16 +17,16 @@ module.exports = {
     const neko = new client();
 
     const mention = message.mentions.users.first();
-    if (!mention) return message.reply("But.. who do i pat?");
+    if (!mention) return message.reply("But.. who do i feed?");
     if (mention.id === message.author.id)
       return message.channel.send(
         `U can do that ur self`
       );
 
-    neko.sfw.pat().then(pat => {
+    neko.sfw.feed().then(feed => {
       const embed = new Discord.RichEmbed()
         .setColor("RANDOM")
-        .setImage(pat.url);
+        .setImage(feed.url);
       message.channel.send(embed);
     });
   }
