@@ -60,7 +60,7 @@ LET'S GO!
   })*/
 
   //discord bot list poster
-  setInterval(() => {
+ /* setInterval(() => {
     const tokens = require('../data/tokens.json')
     const snekfetch = require("snekfetch");
     const key = tokens.BLAPI;
@@ -70,5 +70,5 @@ LET'S GO!
       .set("Authorization", key)
       .send({ server_count: Bot.guilds.size })
       .catch(e => console.error(e));
-  }, 1800000);
+  }, 1800000);*/
 };
